@@ -8,14 +8,14 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { Home } from "./pages/Home.tsx";
-import { Contacts } from "./pages/Contacts.tsx";
+import { CandidateContacts } from "./pages/CandidateContacts.tsx";
 import { Navbar } from "./components/Navbar.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<Navbar />}>
       <Route path="/" element={<Home />} />
-      <Route path="/contacts" element={<Contacts />} />
+      <Route path="/contacts" element={<CandidateContacts />} />
     </Route>
   )
 );
