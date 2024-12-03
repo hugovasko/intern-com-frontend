@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-
+import pic from "@/assets/4714183.png" ;
 import { cn } from "@/lib/utils";
 import {
   NavigationMenu,
@@ -54,21 +54,34 @@ const components: { title: string; href: string; description: string }[] = [
 export function Navbar() {
   return (
     <div>
-      <div className="flex justify-center mt-2">
+      <div className="flex justify-left mt-4">
         <NavigationMenu>
           <NavigationMenuList>
+          <NavigationMenuItem>
+              <Link to="/" className="flex justify-left items-left">
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                <img
+                  src={pic} 
+                  alt="Logo" 
+                  width={50} 
+                  height={50} 
+                  className="mr-4"
+                />
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
+              <NavigationMenuTrigger>Candidates</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                   <li className="row-span-3">
                     <NavigationMenuLink asChild>
                       <a
                         className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                        href="/"
+                        href="/Intership"
                       >
                         {/* <Icons.logo className="h-6 w-6" /> */}
-                        <div className="mb-2 mt-4 text-lg font-medium">shadcn/ui</div>
+                        <div className="mb-2 mt-4 text-lg font-medium">Interships</div>
                         <p className="text-sm leading-tight text-muted-foreground">
                           Beautifully designed components that you can copy and paste into your
                           apps. Accessible. Customizable. Open Source.
@@ -76,17 +89,24 @@ export function Navbar() {
                       </a>
                     </NavigationMenuLink>
                   </li>
-                  <ListItem href="/" title="Home">
-                    We are cool!
+                  <ListItem href="/opportunities" title="Opportunities">
+                  Scholarships, competitions and programs
                   </ListItem>
-                  <ListItem href="/docs/installation" title="Installation">
+                  <ListItem href="/calculator" title="Salary calculator">
                     How to install dependencies and structure your app.
                   </ListItem>
-                  <ListItem href="/docs/primitives/typography" title="Typography">
+                  <ListItem href="/community" title="Community">
                     Styles for headings, paragraphs, lists...etc
                   </ListItem>
                 </ul>
               </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link to="/partners">
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Partners
+                </NavigationMenuLink>
+              </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuTrigger>Components</NavigationMenuTrigger>
@@ -99,6 +119,13 @@ export function Navbar() {
                   ))}
                 </ul>
               </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link to="/us">
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  Us
+                </NavigationMenuLink>
+              </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
               <Link to="/contacts">
