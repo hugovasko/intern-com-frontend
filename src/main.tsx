@@ -15,6 +15,11 @@ import { Opportunities } from "./pages/Opportunities.tsx";
 import { Interships } from "./pages/Interships.tsx";
 import { Calculator } from "./pages/Calculator.tsx";
 import { Partners } from "./pages/Partners.tsx";
+import { LogIn } from "lucide-react";
+import { Register } from "./pages/Register.tsx";
+import { CareerAssistant } from "./pages/CareerAssistant.tsx";
+import { CandidatePartners } from "./pages/CandidatePartners.tsx";
+import { Community } from "./pages/Community.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,9 +28,14 @@ const router = createBrowserRouter(
       <Route path="/intership" element={<Interships/>}/>
       <Route path="/opportunities" element={<Opportunities/>}/>
       <Route path="/calculator" element={<Calculator/>}/>
+      <Route path="/community" element={<Community/>}/>
       <Route path="/partners" element={<Partners/>}/>
+      <Route path="/careerassistant" element={<CareerAssistant />} />
       <Route path="/contacts" element={<CandidateContacts />} />
+      <Route path="/candidatepartners" element={<CandidatePartners />} />
       <Route path="/us" element={<Us />} />
+      <Route path="/login" element={<LogIn />} />
+      <Route path="/register" element={<Register />} />
     </Route>
   )
 );
