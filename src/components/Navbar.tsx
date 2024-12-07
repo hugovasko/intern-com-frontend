@@ -29,6 +29,12 @@ const components: { title: string; href: string; description: string }[] = [
 ];
 
 export function Navbar() {
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
+
   return (
     <div>
       <div className="w-full shadow">
@@ -36,7 +42,18 @@ export function Navbar() {
           <Link to="/" aria-label="Home" className="flex items-center">
             <img src={logo} alt="Logo" width={100} height={100} className="mr-4" />
           </Link>
-          <div className="flex px-4  text-sm justify-center  w-full">
+
+          {/* Mobile menu toggle button */}
+          <div className="md:hidden flex items-center gap-4">
+            <button onClick={toggleMenu} className="text-black">
+              <span className="block w-6 h-0.5 bg-black my-1"></span>
+              <span className="block w-6 h-0.5 bg-black my-1"></span>
+              <span className="block w-6 h-0.5 bg-black my-1"></span>
+            </button>
+          </div>
+
+          {/* Desktop navigation */}
+          <div className="hidden md:flex px-4 text-sm justify-center w-full">
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
@@ -116,14 +133,16 @@ export function Navbar() {
               </NavigationMenuList>
             </NavigationMenu>
           </div>
-          <div className="flex items-center gap-4">
+
+          {/* Desktop authentication buttons */}
+          <div className="hidden md:flex items-center gap-4">
             <Link to="/login">
               <Button className="px-4 py-2 text-sm font-medium">Log in</Button>
             </Link>
             <Link to="/register">
               <Button
                 variant="outline"
-                className=" flex px-4 py-2 text-sm font-medium outline rounded-md"
+                className="flex px-4 py-2 text-sm font-medium outline rounded-md"
               >
                 Register
               </Button>
@@ -131,6 +150,94 @@ export function Navbar() {
           </div>
         </div>
       </div>
+
+      {/* Mobile menu */}
+      {isMenuOpen && (
+        <NavigationMenu>
+          <NavigationMenuList>
+            <div className="md:hidden">
+              <div className="flex flex-col items-left space-y-4 p-4 bg-white shadow-lg">
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger>Candidates</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid gap-3 p-5 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr] ">
+                      <li className="row-span-3">
+                        <NavigationMenuLink asChild>
+                          <a
+                            className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                            href="/Intership"
+                          >
+                            <img
+                              src={hiring}
+                              alt="hire"
+                              className="h-70 w-70 object-cover rounded-md"
+                            />
+                            <div className="mb-2 mt-4 text-lg font-medium">Internships</div>
+                            <p className="text-sm leading-tight text-muted-foreground">
+                              Launch your career with exciting internship opportunities & your first
+                              job experience!
+                            </p>
+                          </a>
+                        </NavigationMenuLink>
+                      </li>
+                      <ListItem href="/opportunities" title="Opportunities">
+                        Scholarships, competitions and programs
+                      </ListItem>
+                      <ListItem href="/calculator" title="Salary calculator">
+                        Use our salary calculator to estimate your potential earnings.
+                      </ListItem>
+                      <ListItem href="/community" title="Community">
+                        Join our community to connect, collaborate, and grow.
+                      </ListItem>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link to="/partners" className="text-black" onClick={toggleMenu}>
+                    Partners
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link to="/careerassistant" className="text-black" onClick={toggleMenu}>
+                    Career Assistant
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link to="/us" className="text-black" onClick={toggleMenu}>
+                    Us
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger>Contacts</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[300px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                      {components.map((component) => (
+                        <ListItem
+                          key={component.title}
+                          title={component.title}
+                          href={component.href}
+                        >
+                          {component.description}
+                        </ListItem>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link to="/login" className="text-black" onClick={toggleMenu}>
+                    Log in
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link to="/register" className="text-black" onClick={toggleMenu}>
+                    Register
+                  </Link>
+                </NavigationMenuItem>
+              </div>
+            </div>
+          </NavigationMenuList>
+        </NavigationMenu>
+      )}
 
       <Outlet />
     </div>
