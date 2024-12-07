@@ -9,20 +9,24 @@ import {
 } from "react-router-dom";
 import { Home } from "./pages/Home.tsx";
 import { CandidateContacts } from "./pages/CandidateContacts.tsx";
-import { Navbar } from "./components/Navbar.tsx";
 import { Us } from "./pages/Us.tsx";
 import { Opportunities } from "./pages/Opportunities.tsx";
 import { Interships } from "./pages/Interships.tsx";
 import { Calculator } from "./pages/Calculator.tsx";
 import { Partners } from "./pages/Partners.tsx";
 import { CareerAssistant } from "./pages/CareerAssistant.tsx";
-import { CandidatePartners } from "./pages/CandidatePartners.tsx";
+import { PartnerContacts } from "./pages/PartnerContacts.tsx";
 import { Community } from "./pages/Community.tsx";
 import { AuthPage } from "./pages/AuthPage.tsx";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import { Profile } from "./pages/Profile.tsx";
+import { RootLayout } from "./components/layouts/RootLayout";
+import { AdminPanel } from "./pages/AdminPanel.tsx";
+import { ManageOpportunities } from "./pages/ManageOpportunities.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route element={<Navbar />}>
+    <Route element={<RootLayout />}>
       <Route path="/" element={<Home />} />
       <Route path="/intership" element={<Interships />} />
       <Route path="/opportunities" element={<Opportunities />} />
@@ -30,10 +34,36 @@ const router = createBrowserRouter(
       <Route path="/community" element={<Community />} />
       <Route path="/partners" element={<Partners />} />
       <Route path="/careerassistant" element={<CareerAssistant />} />
-      <Route path="/contacts" element={<CandidateContacts />} />
-      <Route path="/candidatepartners" element={<CandidatePartners />} />
+      <Route path="/candidatecontacts" element={<CandidateContacts />} />
+      <Route path="/partnercontacts" element={<PartnerContacts />} />
       <Route path="/us" element={<Us />} />
       <Route path="/auth/:type?" element={<AuthPage />} />
+
+      {/* Protected routes */}
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <AdminPanel />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/opportunities/manage"
+        element={
+          <ProtectedRoute roles={["partner", "admin"]}>
+            <ManageOpportunities />
+          </ProtectedRoute>
+        }
+      />
     </Route>
   )
 );

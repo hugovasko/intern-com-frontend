@@ -1,50 +1,44 @@
-# React + TypeScript + Vite
+# Intern Connect Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend for the Intern Connect platform, built with React, TypeScript, and Vite.
 
-Currently, two official plugins are available:
+## Prerequisites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Node.js (v20 or higher)
+- npm (usually comes with Node.js)
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. **Clone the repository:**
 
-- Configure the top-level `parserOptions` property like this:
+   ```bash
+   git clone https://github.com/hugovasko/intern-com-frontend.git
+   cd intern-com-frontend
+   ```
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+2. **Create a `.env` file in the root directory:**
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+   ```env
+   VITE_API_URL=http://localhost:3030
+   ```
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+3. **Install dependencies:**
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+   ```bash
+   npm install
+   ```
+
+4. **Start the development server:**
+
+   ```bash
+   npm run dev
+   ```
+
+   The application will be available at [http://localhost:5173](http://localhost:5173).
+
+## Styling
+
+The project uses [Tailwind CSS](https://tailwindcss.com/docs/installation) and [Shadcn](https://ui.shadcn.com/docs) for styling. For more details, check their respective documentation:
+
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Shadcn Documentation](https://ui.shadcn.com/docs)

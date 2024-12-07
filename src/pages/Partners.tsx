@@ -43,7 +43,7 @@ const Partners = () => {
             </div>
           </div>
           <br></br>
-          <Link to="/candidatepartners">
+          <Link to="/partnercontacts">
             <Button className="mt-4  py-2  rounded-lg">Become Partner!</Button>
           </Link>
         </div>
