@@ -17,6 +17,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Link, Outlet } from "react-router-dom";
 import { ChevronDown, Menu } from "lucide-react";
 import { useState } from "react";
+import { useScroll } from "@/hooks/useScroll";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -34,6 +35,7 @@ const components: { title: string; href: string; description: string }[] = [
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const { scrolled, visible } = useScroll();
 
   // Function to close the sheet
   const handleLinkClick = () => {
@@ -82,8 +84,14 @@ export function Navbar() {
   );
 
   return (
-    <div>
-      <div className="w-full shadow">
+    <>
+      <div
+        className={cn(
+          "fixed top-0 left-0 right-0 bg-background z-50 transition-all duration-300",
+          scrolled && "border-b shadow-sm",
+          visible ? "translate-y-0" : "-translate-y-full"
+        )}
+      >
         <div className="flex items-center justify-between px-4 py-2">
           <Link to="/" aria-label="Home" className="flex items-center">
             <img src={logo} alt="Logo" width={100} height={100} className="mr-4" />
@@ -168,12 +176,12 @@ export function Navbar() {
 
                     {/* Authentication Buttons */}
                     <div className="flex flex-col gap-2 pt-4 border-t">
-                      <Link to="/login" className="w-full" onClick={handleLinkClick}>
+                      <Link to="/auth/login" className="w-full" onClick={handleLinkClick}>
                         <Button className="w-full" variant="default">
                           Log in
                         </Button>
                       </Link>
-                      <Link to="/register" className="w-full" onClick={handleLinkClick}>
+                      <Link to="/auth/register" className="w-full" onClick={handleLinkClick}>
                         <Button className="w-full" variant="outline">
                           Register
                         </Button>
@@ -195,9 +203,9 @@ export function Navbar() {
                     <ul className="grid gap-3 p-5 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                       <li className="row-span-3">
                         <NavigationMenuLink asChild>
-                          <a
+                          <Link
+                            to="/Intership"
                             className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                            href="/Intership"
                           >
                             <img
                               src={hiring}
@@ -209,16 +217,16 @@ export function Navbar() {
                               Launch your career with exciting internship opportunities & your first
                               job experience!
                             </p>
-                          </a>
+                          </Link>
                         </NavigationMenuLink>
                       </li>
-                      <ListItem href="/opportunities" title="Opportunities">
+                      <ListItem to="/opportunities" title="Opportunities">
                         Scholarships, competitions and programs
                       </ListItem>
-                      <ListItem href="/calculator" title="Salary calculator">
+                      <ListItem to="/calculator" title="Salary calculator">
                         Use our salary calculator to estimate your potential earnings.
                       </ListItem>
-                      <ListItem href="/community" title="Community">
+                      <ListItem to="/community" title="Community">
                         Join our community to connect, collaborate, and grow.
                       </ListItem>
                     </ul>
@@ -254,11 +262,7 @@ export function Navbar() {
                   <NavigationMenuContent>
                     <ul className="grid w-[300px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                       {components.map((component) => (
-                        <ListItem
-                          key={component.title}
-                          title={component.title}
-                          href={component.href}
-                        >
+                        <ListItem key={component.title} title={component.title} to={component.href}>
                           {component.description}
                         </ListItem>
                       ))}
@@ -271,10 +275,10 @@ export function Navbar() {
 
           {/* Desktop authentication buttons */}
           <div className="hidden md:flex items-center gap-4">
-            <Link to="/login">
+            <Link to="/auth/login">
               <Button className="px-4 py-2 text-sm font-medium">Log in</Button>
             </Link>
-            <Link to="/register">
+            <Link to="/auth/register">
               <Button variant="outline" className="px-4 py-2 text-sm font-medium">
                 Register
               </Button>
@@ -283,32 +287,42 @@ export function Navbar() {
         </div>
       </div>
 
-      <Outlet />
-    </div>
+      {/* Spacer to prevent content from being hidden under fixed navbar */}
+      <div className="h-[64px]" />
+
+      {/* Content */}
+      <main className="relative">
+        <Outlet />
+      </main>
+    </>
   );
 }
 
-const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWithoutRef<"a">>(
-  ({ className, title, children, ...props }, ref) => {
-    return (
-      <li>
-        <NavigationMenuLink asChild>
-          <a
-            ref={ref}
-            className={cn(
-              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-              className
-            )}
-            {...props}
-          >
-            <div className="text-sm font-medium leading-none">{title}</div>
-            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">{children}</p>
-          </a>
-        </NavigationMenuLink>
-      </li>
-    );
+const ListItem = React.forwardRef<
+  React.ElementRef<typeof Link>,
+  React.ComponentPropsWithoutRef<typeof Link> & {
+    title: string;
+    children: React.ReactNode;
   }
-);
+>(({ className, title, children, ...props }, ref) => {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <Link
+          ref={ref}
+          className={cn(
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            className
+          )}
+          {...props}
+        >
+          <div className="text-sm font-medium leading-none">{title}</div>
+          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">{children}</p>
+        </Link>
+      </NavigationMenuLink>
+    </li>
+  );
+});
 ListItem.displayName = "ListItem";
 
 // MobileListItem component
