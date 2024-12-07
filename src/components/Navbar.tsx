@@ -13,7 +13,10 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Link, Outlet } from "react-router-dom";
+import { ChevronDown, Menu } from "lucide-react";
+import { useState } from "react";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -29,11 +32,54 @@ const components: { title: string; href: string; description: string }[] = [
 ];
 
 export function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [activeMenu, setActiveMenu] = useState<string | null>(null);
 
-  const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev);
+  // Function to close the sheet
+  const handleLinkClick = () => {
+    setOpen(false);
   };
+
+  const CandidatesMobileContent = () => (
+    <div className="mt-2 px-2 pb-2">
+      <Link
+        to="/Intership"
+        className="flex flex-col gap-2 p-4 rounded-md hover:bg-accent"
+        onClick={handleLinkClick}
+      >
+        <img src={hiring} alt="hire" className="h-32 w-full object-cover rounded-md" />
+        <div className="font-medium">Internships</div>
+        <p className="text-sm text-muted-foreground">
+          Launch your career with exciting internship opportunities!
+        </p>
+      </Link>
+      <MobileListItem to="/opportunities" title="Opportunities" onClick={handleLinkClick}>
+        Scholarships, competitions and programs
+      </MobileListItem>
+      <MobileListItem to="/calculator" title="Salary calculator" onClick={handleLinkClick}>
+        Use our salary calculator to estimate your potential earnings.
+      </MobileListItem>
+      <MobileListItem to="/community" title="Community" onClick={handleLinkClick}>
+        Join our community to connect, collaborate, and grow.
+      </MobileListItem>
+    </div>
+  );
+
+  // Mobile menu content for Contacts
+  const ContactsMobileContent = () => (
+    <div className="mt-2 px-2 pb-2">
+      {components.map((component) => (
+        <MobileListItem
+          key={component.title}
+          title={component.title}
+          to={component.href}
+          onClick={handleLinkClick}
+        >
+          {component.description}
+        </MobileListItem>
+      ))}
+    </div>
+  );
 
   return (
     <div>
@@ -43,13 +89,100 @@ export function Navbar() {
             <img src={logo} alt="Logo" width={100} height={100} className="mr-4" />
           </Link>
 
-          {/* Mobile menu toggle button */}
-          <div className="md:hidden flex items-center gap-4">
-            <button onClick={toggleMenu} className="text-black">
-              <span className="block w-6 h-0.5 bg-black my-1"></span>
-              <span className="block w-6 h-0.5 bg-black my-1"></span>
-              <span className="block w-6 h-0.5 bg-black my-1"></span>
-            </button>
+          {/* Mobile menu with Sheet */}
+          <div className="md:hidden">
+            <Sheet open={open} onOpenChange={setOpen}>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-[300px] sm:w-[400px] overflow-y-auto">
+                <nav className="flex flex-col gap-4">
+                  <Link to="/" className="flex items-center" onClick={handleLinkClick}>
+                    <img src={logo} alt="Logo" width={100} height={100} className="mr-4" />
+                  </Link>
+
+                  <div className="flex flex-col space-y-3">
+                    {/* Mobile Navigation Menu */}
+                    <div className="flex flex-col space-y-2">
+                      {/* Candidates Section */}
+                      <div className="w-full">
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-between"
+                          onClick={() =>
+                            setActiveMenu(activeMenu === "candidates" ? null : "candidates")
+                          }
+                        >
+                          Candidates
+                          <ChevronDown
+                            className={cn(
+                              "h-4 w-4 transition-transform duration-200",
+                              activeMenu === "candidates" ? "rotate-180" : ""
+                            )}
+                          />
+                        </Button>
+                        {activeMenu === "candidates" && <CandidatesMobileContent />}
+                      </div>
+
+                      {/* Regular Links */}
+                      <Link to="/partners" className="w-full" onClick={handleLinkClick}>
+                        <Button variant="ghost" className="w-full justify-start">
+                          Partners
+                        </Button>
+                      </Link>
+
+                      <Link to="/careerassistant" className="w-full" onClick={handleLinkClick}>
+                        <Button variant="ghost" className="w-full justify-start">
+                          Career Assistant
+                        </Button>
+                      </Link>
+
+                      <Link to="/us" className="w-full" onClick={handleLinkClick}>
+                        <Button variant="ghost" className="w-full justify-start">
+                          Us
+                        </Button>
+                      </Link>
+
+                      {/* Contacts Section */}
+                      <div className="w-full">
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-between"
+                          onClick={() =>
+                            setActiveMenu(activeMenu === "contacts" ? null : "contacts")
+                          }
+                        >
+                          Contacts
+                          <ChevronDown
+                            className={cn(
+                              "h-4 w-4 transition-transform duration-200",
+                              activeMenu === "contacts" ? "rotate-180" : ""
+                            )}
+                          />
+                        </Button>
+                        {activeMenu === "contacts" && <ContactsMobileContent />}
+                      </div>
+                    </div>
+
+                    {/* Authentication Buttons */}
+                    <div className="flex flex-col gap-2 pt-4 border-t">
+                      <Link to="/login" className="w-full" onClick={handleLinkClick}>
+                        <Button className="w-full" variant="default">
+                          Log in
+                        </Button>
+                      </Link>
+                      <Link to="/register" className="w-full" onClick={handleLinkClick}>
+                        <Button className="w-full" variant="outline">
+                          Register
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                </nav>
+              </SheetContent>
+            </Sheet>
           </div>
 
           {/* Desktop navigation */}
@@ -107,6 +240,7 @@ export function Navbar() {
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
+
                 <NavigationMenuItem>
                   <Link to="/us">
                     <NavigationMenuLink className={navigationMenuTriggerStyle()}>
@@ -114,10 +248,11 @@ export function Navbar() {
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
+
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>Contacts</NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="grid w-[300px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                    <ul className="grid w-[300px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                       {components.map((component) => (
                         <ListItem
                           key={component.title}
@@ -140,104 +275,13 @@ export function Navbar() {
               <Button className="px-4 py-2 text-sm font-medium">Log in</Button>
             </Link>
             <Link to="/register">
-              <Button
-                variant="outline"
-                className="flex px-4 py-2 text-sm font-medium outline rounded-md"
-              >
+              <Button variant="outline" className="px-4 py-2 text-sm font-medium">
                 Register
               </Button>
             </Link>
           </div>
         </div>
       </div>
-
-      {/* Mobile menu */}
-      {isMenuOpen && (
-        <NavigationMenu>
-          <NavigationMenuList>
-            <div className="md:hidden">
-              <div className="flex flex-col items-left space-y-4 p-4 bg-white shadow-lg">
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger>Candidates</NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid gap-3 p-5 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr] ">
-                      <li className="row-span-3">
-                        <NavigationMenuLink asChild>
-                          <a
-                            className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                            href="/Intership"
-                          >
-                            <img
-                              src={hiring}
-                              alt="hire"
-                              className="h-70 w-70 object-cover rounded-md"
-                            />
-                            <div className="mb-2 mt-4 text-lg font-medium">Internships</div>
-                            <p className="text-sm leading-tight text-muted-foreground">
-                              Launch your career with exciting internship opportunities & your first
-                              job experience!
-                            </p>
-                          </a>
-                        </NavigationMenuLink>
-                      </li>
-                      <ListItem href="/opportunities" title="Opportunities">
-                        Scholarships, competitions and programs
-                      </ListItem>
-                      <ListItem href="/calculator" title="Salary calculator">
-                        Use our salary calculator to estimate your potential earnings.
-                      </ListItem>
-                      <ListItem href="/community" title="Community">
-                        Join our community to connect, collaborate, and grow.
-                      </ListItem>
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link to="/partners" className="text-black" onClick={toggleMenu}>
-                    Partners
-                  </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link to="/careerassistant" className="text-black" onClick={toggleMenu}>
-                    Career Assistant
-                  </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link to="/us" className="text-black" onClick={toggleMenu}>
-                    Us
-                  </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger>Contacts</NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid w-[300px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                      {components.map((component) => (
-                        <ListItem
-                          key={component.title}
-                          title={component.title}
-                          href={component.href}
-                        >
-                          {component.description}
-                        </ListItem>
-                      ))}
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link to="/login" className="text-black" onClick={toggleMenu}>
-                    Log in
-                  </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link to="/register" className="text-black" onClick={toggleMenu}>
-                    Register
-                  </Link>
-                </NavigationMenuItem>
-              </div>
-            </div>
-          </NavigationMenuList>
-        </NavigationMenu>
-      )}
 
       <Outlet />
     </div>
@@ -266,3 +310,29 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWit
   }
 );
 ListItem.displayName = "ListItem";
+
+// MobileListItem component
+const MobileListItem = React.forwardRef<
+  React.ElementRef<typeof Link>,
+  React.ComponentPropsWithoutRef<typeof Link> & {
+    title: string;
+    children: React.ReactNode;
+    onClick?: () => void;
+  }
+>(({ className, title, children, onClick, ...props }, ref) => {
+  return (
+    <Link
+      ref={ref as any}
+      className={cn(
+        "block select-none space-y-1 rounded-md p-3 no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+        className
+      )}
+      onClick={onClick}
+      {...props}
+    >
+      <div className="text-sm font-medium leading-none">{title}</div>
+      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">{children}</p>
+    </Link>
+  );
+});
+MobileListItem.displayName = "MobileListItem";
