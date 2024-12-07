@@ -18,16 +18,27 @@ import { Link, Outlet } from "react-router-dom";
 import { ChevronDown, Menu } from "lucide-react";
 import { useState } from "react";
 import { useScroll } from "@/hooks/useScroll";
+import { useAuth } from "@/contexts/AuthContext";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { UserCircle, LogOut, Settings } from "lucide-react";
 
 const components: { title: string; href: string; description: string }[] = [
   {
     title: "Candidate Contacts",
-    href: "/contacts",
+    href: "/candidatecontacts",
     description: "Connect with top candidates and streamline recruitment.",
   },
   {
-    title: "Candidate Partners",
-    href: "/candidatepartners",
+    title: "Partners Contacts",
+    href: "/partnercontacts",
     description: "Partner with top candidates for lasting success.",
   },
 ];
@@ -36,6 +47,7 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const { scrolled, visible } = useScroll();
+  const { user, loading, logout } = useAuth();
 
   // Function to close the sheet
   const handleLinkClick = () => {
@@ -83,6 +95,61 @@ export function Navbar() {
     </div>
   );
 
+  const MobileAuthSection = () => (
+    <div className="flex flex-col gap-2 pt-4 border-t">
+      {user ? (
+        <>
+          <Link to="/profile" className="w-full" onClick={handleLinkClick}>
+            <Button variant="ghost" className="w-full justify-start">
+              <UserCircle className="mr-2 h-4 w-4" />
+              Profile
+            </Button>
+          </Link>
+          {(user.role === "partner" || user.role === "admin") && (
+            <Link to="/opportunities/manage" className="w-full" onClick={handleLinkClick}>
+              <Button variant="ghost" className="w-full justify-start">
+                <Settings className="mr-2 h-4 w-4" />
+                Manage Opportunities
+              </Button>
+            </Link>
+          )}
+          {user.role === "admin" && (
+            <Link to="/admin" className="w-full" onClick={handleLinkClick}>
+              <Button variant="ghost" className="w-full justify-start">
+                <Settings className="mr-2 h-4 w-4" />
+                Admin Panel
+              </Button>
+            </Link>
+          )}
+          <Button
+            variant="ghost"
+            className="w-full justify-start text-red-600 hover:text-red-600 hover:bg-red-100"
+            onClick={() => {
+              logout();
+              handleLinkClick();
+            }}
+          >
+            <LogOut className="mr-2 h-4 w-4" />
+            Logout
+          </Button>
+        </>
+      ) : (
+        <>
+          <Link to="/auth/login" className="w-full" onClick={handleLinkClick}>
+            <Button className="w-full" variant="default">
+              Log in
+            </Button>
+          </Link>
+          <Link to="/auth/register" className="w-full" onClick={handleLinkClick}>
+            <Button className="w-full" variant="outline">
+              Register
+            </Button>
+          </Link>
+        </>
+      )}
+    </div>
+  );
+
   return (
     <>
       <div
@@ -112,7 +179,6 @@ export function Navbar() {
                   </Link>
 
                   <div className="flex flex-col space-y-3">
-                    {/* Mobile Navigation Menu */}
                     <div className="flex flex-col space-y-2">
                       {/* Candidates Section */}
                       <div className="w-full">
@@ -174,19 +240,8 @@ export function Navbar() {
                       </div>
                     </div>
 
-                    {/* Authentication Buttons */}
-                    <div className="flex flex-col gap-2 pt-4 border-t">
-                      <Link to="/auth/login" className="w-full" onClick={handleLinkClick}>
-                        <Button className="w-full" variant="default">
-                          Log in
-                        </Button>
-                      </Link>
-                      <Link to="/auth/register" className="w-full" onClick={handleLinkClick}>
-                        <Button className="w-full" variant="outline">
-                          Register
-                        </Button>
-                      </Link>
-                    </div>
+                    {/* Authentication Section */}
+                    <MobileAuthSection />
                   </div>
                 </nav>
               </SheetContent>
@@ -274,26 +329,71 @@ export function Navbar() {
           </div>
 
           {/* Desktop authentication buttons */}
-          <div className="hidden md:flex items-center gap-4">
-            <Link to="/auth/login">
-              <Button className="px-4 py-2 text-sm font-medium">Log in</Button>
-            </Link>
-            <Link to="/auth/register">
-              <Button variant="outline" className="px-4 py-2 text-sm font-medium">
-                Register
-              </Button>
-            </Link>
-          </div>
+          {!loading && (
+            <div className="hidden md:flex items-center gap-4">
+              {user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Avatar className="cursor-pointer">
+                      <AvatarImage
+                        src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.firstName} ${user.lastName}`}
+                      />
+                      <AvatarFallback>
+                        {user.firstName[0]}
+                        {user.lastName[0]}
+                      </AvatarFallback>
+                    </Avatar>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link to="/profile">
+                        <UserCircle className="mr-2 h-4 w-4" />
+                        Profile
+                      </Link>
+                    </DropdownMenuItem>
+                    {(user.role === "partner" || user.role === "admin") && (
+                      <DropdownMenuItem asChild>
+                        <Link to="/opportunities/manage">
+                          <Settings className="mr-2 h-4 w-4" />
+                          Manage Opportunities
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
+                    {user.role === "admin" && (
+                      <DropdownMenuItem asChild>
+                        <Link to="/admin">
+                          <Settings className="mr-2 h-4 w-4" />
+                          Admin Panel
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
+                    <DropdownMenuItem onClick={logout}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <>
+                  <Link to="/auth/login">
+                    <Button className="px-4 py-2 text-sm font-medium">Log in</Button>
+                  </Link>
+                  <Link to="/auth/register">
+                    <Button variant="outline" className="px-4 py-2 text-sm font-medium">
+                      Register
+                    </Button>
+                  </Link>
+                </>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
       {/* Spacer to prevent content from being hidden under fixed navbar */}
       <div className="h-[64px]" />
-
-      {/* Content */}
-      <main className="relative">
-        <Outlet />
-      </main>
     </>
   );
 }

@@ -14,6 +14,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 // Schema for registration
 const registerSchema = z.object({
@@ -41,44 +43,101 @@ const loginSchema = z.object({
   }),
 });
 
+const partnerRegisterSchema = z.object({
+  firstName: z.string().min(2, {
+    message: "First name must be at least 2 characters.",
+  }),
+  lastName: z.string().min(2, {
+    message: "Last name must be at least 2 characters.",
+  }),
+  email: z.string().email({
+    message: "Please enter a valid email address.",
+  }),
+  password: z.string().min(6, {
+    message: "Password must be at least 6 characters.",
+  }),
+  companyName: z.string().min(2, {
+    message: "Company name must be at least 2 characters.",
+  }),
+  phoneNumber: z.string().min(6, {
+    message: "Please enter a valid phone number.",
+  }),
+});
+
 export function AuthPage() {
   const { type = "register" } = useParams();
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(type === "login");
+  const [isPartnerRegister, setIsPartnerRegister] = useState(type === "partnerRegister");
+  const { login, register: registerUser } = useAuth();
+  const { toast } = useToast();
 
   // Update form type when URL changes
   useEffect(() => {
     setIsLogin(type === "login");
+    setIsPartnerRegister(type === "partnerRegister");
   }, [type]);
 
-  const form = useForm<z.infer<typeof registerSchema> | z.infer<typeof loginSchema>>({
-    resolver: zodResolver(isLogin ? loginSchema : registerSchema),
+  const form = useForm<
+    | z.infer<typeof registerSchema>
+    | z.infer<typeof loginSchema>
+    | z.infer<typeof partnerRegisterSchema>
+  >({
+    resolver: zodResolver(
+      isLogin ? loginSchema : isPartnerRegister ? partnerRegisterSchema : registerSchema
+    ),
     defaultValues: {
       email: "",
       password: "",
       ...(isLogin ? {} : { firstName: "", lastName: "" }),
+      ...(isPartnerRegister ? { companyName: "", phoneNumber: "" } : {}),
     },
   });
 
-  function onSubmit(values: z.infer<typeof registerSchema> | z.infer<typeof loginSchema>) {
-    // Handle form submission
-    console.log(values);
+  async function onSubmit(values: any) {
+    try {
+      if (isLogin) {
+        await login(values.email, values.password);
+        toast({
+          title: "Welcome back!",
+          description: "You have successfully logged in.",
+        });
+      } else {
+        await registerUser({
+          ...values,
+          role: isPartnerRegister ? "partner" : "candidate",
+        });
+        toast({
+          title: "Account created!",
+          description: `You have successfully registered as a ${isPartnerRegister ? "partner" : "candidate"}.`,
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    }
   }
-
-  const toggleAuthMode = () => {
-    const newType = isLogin ? "register" : "login";
-    navigate(`/auth/${newType}`);
-  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-64px)] p-4">
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
-          <h1 className="text-2xl font-bold">{isLogin ? "Welcome Back" : "Create an Account"}</h1>
+          <h1 className="text-2xl font-bold">
+            {isLogin
+              ? "Welcome Back"
+              : isPartnerRegister
+                ? "Register as Partner"
+                : "Create an Account"}
+          </h1>
           <p className="text-muted-foreground mt-2">
             {isLogin
               ? "Enter your credentials to access your account"
-              : "Fill in your details to get started"}
+              : isPartnerRegister
+                ? "Register your company and start posting opportunities"
+                : "Fill in your details to get started"}
           </p>
         </div>
 
@@ -115,6 +174,37 @@ export function AuthPage() {
               </div>
             )}
 
+            {isPartnerRegister && (
+              <>
+                <FormField
+                  control={form.control}
+                  name="companyName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Company Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Company Inc." {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="phoneNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone Number</FormLabel>
+                      <FormControl>
+                        <Input placeholder="+1234567890" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </>
+            )}
+
             <FormField
               control={form.control}
               name="email"
@@ -144,10 +234,22 @@ export function AuthPage() {
             />
 
             <Button type="submit" className="w-full">
-              {isLogin ? "Sign In" : "Create Account"}
+              {isLogin ? "Sign In" : isPartnerRegister ? "Register as Partner" : "Create Account"}
             </Button>
           </form>
         </Form>
+
+        {!isLogin && !isPartnerRegister && (
+          <div className="text-center mt-4">
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => navigate("/auth/partnerRegister")}
+            >
+              Register as Partner Instead
+            </Button>
+          </div>
+        )}
 
         <div className="relative my-8">
           <div className="absolute inset-0 flex items-center">
@@ -158,7 +260,12 @@ export function AuthPage() {
           </div>
         </div>
 
-        <Button variant="outline" className="w-full" onClick={() => console.log("Google Sign In")}>
+        <Button
+          variant="outline"
+          className="w-full"
+          onClick={() => console.log("Google Sign In")}
+          disabled
+        >
           <svg
             className="mr-2 h-4 w-4"
             aria-hidden="true"
@@ -186,12 +293,25 @@ export function AuthPage() {
               fill="#EA4335"
             />
           </svg>
-          Continue with Google
+          Continue with Google (Coming Soon)
         </Button>
 
         <div className="text-center mt-6">
-          <Button variant="link" onClick={toggleAuthMode}>
-            {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
+          <Button
+            variant="link"
+            onClick={() => {
+              if (isPartnerRegister) {
+                navigate("/auth/register");
+              } else {
+                navigate(`/auth/${isLogin ? "register" : "login"}`);
+              }
+            }}
+          >
+            {isLogin
+              ? "Don't have an account? Sign up"
+              : isPartnerRegister
+                ? "Register as Candidate Instead"
+                : "Already have an account? Sign in"}
           </Button>
         </div>
       </div>
