@@ -168,12 +168,12 @@ export function Navbar() {
 
                     {/* Authentication Buttons */}
                     <div className="flex flex-col gap-2 pt-4 border-t">
-                      <Link to="/login" className="w-full" onClick={handleLinkClick}>
+                      <Link to="/auth/login" className="w-full" onClick={handleLinkClick}>
                         <Button className="w-full" variant="default">
                           Log in
                         </Button>
                       </Link>
-                      <Link to="/register" className="w-full" onClick={handleLinkClick}>
+                      <Link to="/auth/register" className="w-full" onClick={handleLinkClick}>
                         <Button className="w-full" variant="outline">
                           Register
                         </Button>
@@ -271,10 +271,10 @@ export function Navbar() {
 
           {/* Desktop authentication buttons */}
           <div className="hidden md:flex items-center gap-4">
-            <Link to="/login">
+            <Link to="/auth/login">
               <Button className="px-4 py-2 text-sm font-medium">Log in</Button>
             </Link>
-            <Link to="/register">
+            <Link to="auth/register">
               <Button variant="outline" className="px-4 py-2 text-sm font-medium">
                 Register
               </Button>
