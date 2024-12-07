@@ -42,3 +42,4 @@ The project uses [Tailwind CSS](https://tailwindcss.com/docs/installation) and [
 
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - [Shadcn Documentation](https://ui.shadcn.com/docs)
+  .
