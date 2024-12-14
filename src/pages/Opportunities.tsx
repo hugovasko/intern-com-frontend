@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Select,
@@ -32,24 +33,36 @@ interface Filters {
 }
 
 export function Opportunities() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   const [filteredOpportunities, setFilteredOpportunities] = useState<Opportunity[]>([]);
+  
+  // Correctly initialize the filters based on URL query params
   const [filters, setFilters] = useState<Filters>({
-    type: "all",
-    location: "",
+    type: searchParams.get("type") || "all",  // Initialize type filter from query params
+    location: searchParams.get("location") || "",
   });
 
   const [uniqueLocations, setUniqueLocations] = useState<string[]>([]);
   const { toast } = useToast();
 
   useEffect(() => {
+    // Fetch opportunities when component loads
     fetchOpportunities();
   }, []);
 
   useEffect(() => {
+    // Apply filters and update the filtered opportunities whenever opportunities or filters change
     applyFilters();
     extractUniqueLocations();
-  }, [opportunities, filters]);
+
+    // Update the URL query parameters based on the current filters
+    const params: Record<string, string> = {};
+    if (filters.type !== "all") params["type"] = filters.type;
+    if (filters.location) params["location"] = filters.location;
+
+    setSearchParams(params, { replace: true });
+  }, [opportunities, filters, setSearchParams]);
 
   const fetchOpportunities = async () => {
     try {
@@ -72,10 +85,12 @@ export function Opportunities() {
   const applyFilters = () => {
     let result = opportunities;
 
+    // Filter by type: only show internship if 'type' is 'internship' in the URL
     if (filters.type !== "all") {
-      result = result.filter((opportunity) => opportunity.type.toLowerCase() === filters.type);
+      result = result.filter((opportunity) => opportunity.type.toLowerCase() === filters.type.toLowerCase());
     }
 
+    // Filter by location
     if (filters.location) {
       result = result.filter((opportunity) => opportunity.location === filters.location);
     }
@@ -95,13 +110,13 @@ export function Opportunities() {
       type: "all",
       location: "",
     });
+    setSearchParams({});
   };
 
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-2xl font-bold mb-6">Available Opportunities</h1>
 
-      {/* Filters Container */}
       <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Type Filter */}
         <Select onValueChange={(value) => handleFilterChange("type", value)} value={filters.type}>
@@ -116,10 +131,7 @@ export function Opportunities() {
         </Select>
 
         {/* Location Filter */}
-        <Select
-          onValueChange={(value) => handleFilterChange("location", value)}
-          value={filters.location}
-        >
+        <Select onValueChange={(value) => handleFilterChange("location", value)} value={filters.location}>
           <SelectTrigger>
             <SelectValue placeholder="Location" />
           </SelectTrigger>

@@ -6,12 +6,12 @@ import {
   createRoutesFromElements,
   Route,
   RouterProvider,
+  redirect,
 } from "react-router-dom";
 import { Home } from "./pages/Home.tsx";
 import { CandidateContacts } from "./pages/CandidateContacts.tsx";
 import { Us } from "./pages/Us.tsx";
 import { Opportunities } from "./pages/Opportunities.tsx";
-import { Interships } from "./pages/Interships.tsx";
 import { Calculator } from "./pages/Calculator.tsx";
 import { Partners } from "./pages/Partners.tsx";
 import { CareerAssistant } from "./pages/CareerAssistant.tsx";
@@ -28,7 +28,10 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<RootLayout />}>
       <Route path="/" element={<Home />} />
-      <Route path="/intership" element={<Interships />} />
+      <Route 
+        path="/intership" 
+        loader={() => redirect("/opportunities?type=internship")} // Changed filter to type
+      />
       <Route path="/opportunities" element={<Opportunities />} />
       <Route path="/calculator" element={<Calculator />} />
       <Route path="/community" element={<Community />} />
