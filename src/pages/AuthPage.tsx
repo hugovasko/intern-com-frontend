@@ -72,6 +72,13 @@ export function AuthPage() {
   const { login, register: registerUser } = useAuth();
   const { toast } = useToast();
 
+  const { user, loading } = useAuth();
+  useEffect(() => {
+    if (!loading && user) {
+      navigate("/");
+    }
+  }, [loading, user, navigate]);
+
   // Update form type when URL changes
   useEffect(() => {
     setIsLogin(type === "login");

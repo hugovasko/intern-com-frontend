@@ -1,18 +1,25 @@
 // src/contexts/AuthContext.tsx
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { auth as authApi } from "@/lib/api";
+import api, { auth as authApi } from "@/lib/api";
 import { useNavigate } from "react-router-dom";
 
-interface User {
+export interface User {
   id: number;
   email: string;
   firstName: string;
   lastName: string;
+  companyName?: string;
   role: "candidate" | "partner" | "admin";
+  cv?: Buffer;
+  cvFileName?: string;
+  cvMimeType?: string;
+  phoneNumber?: string;
+  createdAt: string;
 }
 
 interface AuthContextType {
   user: User | null;
+  setUser: (user: User | null) => void;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (data: {
@@ -31,23 +38,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  const fetchCurrentUser = async () => {
+    try {
+      const response = await api.get("/users/me");
+      setUser(response.data);
+    } catch (error) {
+      console.error("Failed to fetch user:", error);
+      localStorage.removeItem("token");
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      // TODO: Add verify token endpoint and call it here
-      const userData = localStorage.getItem("user");
-      if (userData) {
-        setUser(JSON.parse(userData));
-      }
+      fetchCurrentUser();
+    } else {
+      setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   const login = async (email: string, password: string) => {
     try {
       const response = await authApi.login({ email, password });
       localStorage.setItem("token", response.data.access_token);
-      localStorage.setItem("user", JSON.stringify(response.data.user));
       setUser(response.data.user);
       navigate("/");
     } catch (error) {
@@ -74,13 +90,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("user");
     setUser(null);
     navigate("/auth/login");
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, setUser, loading, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

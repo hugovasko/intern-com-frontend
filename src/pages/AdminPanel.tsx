@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/select";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -31,17 +30,7 @@ import { useToast } from "@/hooks/use-toast";
 import api from "@/lib/api";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-
-interface User {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  role: string;
-  companyName?: string;
-  phoneNumber?: string;
-  createdAt: string;
-}
+import { User } from "@/contexts/AuthContext";
 
 export function AdminPanel() {
   const [users, setUsers] = useState<User[]>([]);
