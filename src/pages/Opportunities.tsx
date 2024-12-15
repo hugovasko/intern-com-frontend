@@ -10,6 +10,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import api from "@/lib/api";
 import { MapPin, Briefcase, DollarSign, Building } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
 
 interface Opportunity {
   id: number;
@@ -32,6 +33,7 @@ interface Filters {
 }
 
 export function Opportunities() {
+  const [searchParams] = useSearchParams();
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   const [filteredOpportunities, setFilteredOpportunities] = useState<Opportunity[]>([]);
   const [filters, setFilters] = useState<Filters>({
@@ -45,6 +47,21 @@ export function Opportunities() {
   useEffect(() => {
     fetchOpportunities();
   }, []);
+
+  useEffect(() => {
+    const typeParam = searchParams.get("type");
+    if (typeParam) {
+      setFilters((prev) => ({
+        ...prev,
+        type: typeParam,
+      }));
+    } else {
+      setFilters((prev) => ({
+        ...prev,
+        type: "all",
+      }));
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     applyFilters();
