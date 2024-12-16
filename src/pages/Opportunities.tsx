@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import api from "@/lib/api";
 import { MapPin, Briefcase, DollarSign, Building } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface Opportunity {
   id: number;
@@ -30,18 +31,24 @@ interface Opportunity {
 interface Filters {
   type: string;
   location: string;
+  field: string;
+  salary: string;
 }
 
 export function Opportunities() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   const [filteredOpportunities, setFilteredOpportunities] = useState<Opportunity[]>([]);
+
   const [filters, setFilters] = useState<Filters>({
-    type: "all",
-    location: "",
+    type: searchParams.get("type") || "all",
+    location: searchParams.get("location") || "",
+    field: searchParams.get("field") || "all",
+    salary: searchParams.get("salary") || "all",
   });
 
   const [uniqueLocations, setUniqueLocations] = useState<string[]>([]);
+  const [uniqueFields, setUniqueFields] = useState<string[]>([]);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -49,24 +56,17 @@ export function Opportunities() {
   }, []);
 
   useEffect(() => {
-    const typeParam = searchParams.get("type");
-    if (typeParam) {
-      setFilters((prev) => ({
-        ...prev,
-        type: typeParam,
-      }));
-    } else {
-      setFilters((prev) => ({
-        ...prev,
-        type: "all",
-      }));
-    }
-  }, [searchParams]);
-
-  useEffect(() => {
     applyFilters();
-    extractUniqueLocations();
-  }, [opportunities, filters]);
+    extractUniqueFilters();
+
+    const params: Record<string, string> = {};
+    if (filters.type !== "all") params["type"] = filters.type;
+    if (filters.location) params["location"] = filters.location;
+    if (filters.field !== "all") params["field"] = filters.field;
+    if (filters.salary !== "all") params["salary"] = filters.salary;
+
+    setSearchParams(params, { replace: true });
+  }, [opportunities, filters, setSearchParams]);
 
   const fetchOpportunities = async () => {
     try {
@@ -81,20 +81,36 @@ export function Opportunities() {
     }
   };
 
-  const extractUniqueLocations = () => {
+  const extractUniqueFilters = () => {
     const locations = [...new Set(opportunities.map((opp) => opp.location))];
+    const fields = [...new Set(opportunities.map((opp) => opp.company.companyName))];
     setUniqueLocations(locations);
+    setUniqueFields(fields);
   };
 
   const applyFilters = () => {
     let result = opportunities;
 
     if (filters.type !== "all") {
-      result = result.filter((opportunity) => opportunity.type.toLowerCase() === filters.type);
+      result = result.filter(
+        (opportunity) => opportunity.type.toLowerCase() === filters.type.toLowerCase()
+      );
     }
 
     if (filters.location) {
       result = result.filter((opportunity) => opportunity.location === filters.location);
+    }
+
+    if (filters.field !== "all") {
+      result = result.filter((opportunity) => opportunity.company.companyName === filters.field);
+    }
+
+    if (filters.salary !== "all") {
+      result = result.filter((opportunity) => {
+        const salary = parseInt(opportunity.salary || "0", 10);
+        const filterSalary = parseInt(filters.salary, 10);
+        return salary >= filterSalary;
+      });
     }
 
     setFilteredOpportunities(result);
@@ -111,16 +127,17 @@ export function Opportunities() {
     setFilters({
       type: "all",
       location: "",
+      field: "all",
+      salary: "all",
     });
+    setSearchParams({});
   };
 
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-2xl font-bold mb-6">Available Opportunities</h1>
 
-      {/* Filters Container */}
-      <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Type Filter */}
+      <div className="mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Select onValueChange={(value) => handleFilterChange("type", value)} value={filters.type}>
           <SelectTrigger>
             <SelectValue placeholder="Job Type" />
@@ -132,7 +149,6 @@ export function Opportunities() {
           </SelectContent>
         </Select>
 
-        {/* Location Filter */}
         <Select
           onValueChange={(value) => handleFilterChange("location", value)}
           value={filters.location}
@@ -148,9 +164,41 @@ export function Opportunities() {
             ))}
           </SelectContent>
         </Select>
+
+        <Select onValueChange={(value) => handleFilterChange("field", value)} value={filters.field}>
+          <SelectTrigger>
+            <SelectValue placeholder="Field (Company)" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Fields</SelectItem>
+            {uniqueFields.map((field) => (
+              <SelectItem key={field} value={field}>
+                {field}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select
+          onValueChange={(value) => handleFilterChange("salary", value)}
+          value={filters.salary}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Minimum Salary (BGN)" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Any Salary</SelectItem>
+            <SelectItem value="500">500+ BGN</SelectItem>
+            <SelectItem value="1000">1000+ BGN</SelectItem>
+            <SelectItem value="2000">2000+ BGN</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
-      {filters.type !== "all" || filters.location ? (
+      {filters.type !== "all" ||
+      filters.location ||
+      filters.field !== "all" ||
+      filters.salary !== "all" ? (
         <div className="mb-6">
           <button onClick={clearFilters} className="text-red-500 hover:underline">
             Clear All Filters
@@ -162,7 +210,11 @@ export function Opportunities() {
         {filteredOpportunities.map((opportunity) => (
           <Card key={opportunity.id} className="hover:shadow-lg transition-shadow">
             <CardHeader>
-              <CardTitle>{opportunity.title}</CardTitle>
+              <CardTitle>
+                <Link to={`/opportunities/${opportunity.id}`} className="hover:underline">
+                  {opportunity.title}
+                </Link>
+              </CardTitle>
               <div className="text-sm text-muted-foreground">
                 <div className="flex items-center gap-2 mt-2">
                   <Building className="h-4 w-4" />
