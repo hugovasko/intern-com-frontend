@@ -22,12 +22,14 @@ import { Profile } from "./pages/Profile.tsx";
 import { RootLayout } from "./components/layouts/RootLayout";
 import { AdminPanel } from "./pages/AdminPanel.tsx";
 import { ManageOpportunities } from "./pages/ManageOpportunities.tsx";
+import { OpportunityDetail } from "./pages/OpportunityDetail.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<RootLayout />}>
       <Route path="/" element={<Home />} />
       <Route path="/opportunities" element={<Opportunities />} />
+      <Route path="/opportunities/:id" element={<OpportunityDetail />} />
       <Route path="/calculator" element={<Calculator />} />
       <Route path="/community" element={<Community />} />
       <Route path="/partners" element={<Partners />} />
