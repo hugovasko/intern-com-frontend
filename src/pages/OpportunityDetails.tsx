@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MapPin, Briefcase, DollarSign, Building } from "lucide-react";
-import api from "@/lib/api";  // Assuming you have an API instance to fetch data
+import api from "@/lib/api"; // Assuming you have an API instance to fetch data
 
 interface Opportunity {
   id: number;
@@ -19,8 +19,8 @@ interface Opportunity {
   };
 }
 
-export function OpportunityDetail() {
-  const { id } = useParams<{ id: string }>(); 
+export function OpportunityDetails() {
+  const { id } = useParams<{ id: string }>();
   const [opportunity, setOpportunity] = useState<Opportunity | null>(null);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export function OpportunityDetail() {
   const fetchOpportunityDetails = async (id: string) => {
     try {
       const response = await api.get(`/opportunities/${id}`);
-      setOpportunity(response.data); 
+      setOpportunity(response.data);
     } catch (error) {
       console.error("Failed to fetch opportunity details", error);
     }
