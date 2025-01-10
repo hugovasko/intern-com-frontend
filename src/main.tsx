@@ -23,6 +23,7 @@ import { RootLayout } from "./components/layouts/RootLayout";
 import { AdminPanel } from "./pages/AdminPanel.tsx";
 import { ManageOpportunities } from "./pages/ManageOpportunities.tsx";
 import { OpportunityDetails } from "./pages/OpportunityDetails.tsx";
+import PrivacyPolicy from "./pages/Privacy.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -38,6 +39,8 @@ const router = createBrowserRouter(
       <Route path="/partnercontacts" element={<PartnerContacts />} />
       <Route path="/us" element={<Us />} />
       <Route path="/auth/:type?" element={<AuthPage />} />
+      <Route path="/privacy" element={<PrivacyPolicy />} />
+
 
       {/* Protected routes */}
       <Route
