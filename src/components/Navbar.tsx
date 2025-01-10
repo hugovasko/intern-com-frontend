@@ -14,7 +14,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ChevronDown, Menu } from "lucide-react";
 import { useState } from "react";
 import { useScroll } from "@/hooks/useScroll";
