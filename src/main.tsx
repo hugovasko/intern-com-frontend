@@ -24,6 +24,7 @@ import { AdminPanel } from "./pages/AdminPanel.tsx";
 import { ManageOpportunities } from "./pages/ManageOpportunities.tsx";
 import { OpportunityDetails } from "./pages/OpportunityDetails.tsx";
 import PrivacyPolicy from "./pages/Privacy.tsx";
+import MapPage from "./pages/MapPage.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -40,7 +41,7 @@ const router = createBrowserRouter(
       <Route path="/us" element={<Us />} />
       <Route path="/auth/:type?" element={<AuthPage />} />
       <Route path="/privacy" element={<PrivacyPolicy />} />
-
+      <Route path="/map" element={<MapPage />} />
 
       {/* Protected routes */}
       <Route

@@ -9,7 +9,7 @@ export function RootLayout() {
   return (
     <AuthProvider>
       <Navbar />
-      <main className="relative">
+      <main className="min-h-screen">
         <Outlet />
       </main>
       <Footer />

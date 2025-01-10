@@ -238,6 +238,11 @@ export function Navbar() {
                         </Button>
                         {activeMenu === "contacts" && <ContactsMobileContent />}
                       </div>
+                      <Link to="/map" className="w-full" onClick={handleLinkClick}>
+                        <Button variant="ghost" className="w-full justify-start">
+                          Map
+                        </Button>
+                      </Link>
                     </div>
 
                     {/* Authentication Section */}
@@ -323,6 +328,14 @@ export function Navbar() {
                       ))}
                     </ul>
                   </NavigationMenuContent>
+                </NavigationMenuItem>
+
+                <NavigationMenuItem>
+                  <Link to="/map">
+                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                      Map
+                    </NavigationMenuLink>
+                  </Link>
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
