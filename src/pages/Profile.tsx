@@ -14,6 +14,7 @@ interface FormData {
   lastName: string;
   phoneNumber: string;
   companyCoordinates: string;
+  companyName: string;
 }
 
 export function Profile() {
@@ -27,12 +28,14 @@ export function Profile() {
     lastName: "",
     phoneNumber: "",
     companyCoordinates: "",
+    companyName: "",
   });
   const [initialFormData, setInitialFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
     phoneNumber: "",
     companyCoordinates: "",
+    companyName: "",
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -43,6 +46,7 @@ export function Profile() {
         lastName: user.lastName || "",
         phoneNumber: user.phoneNumber || "",
         companyCoordinates: user.companyCoordinates || "",
+        companyName: user.companyName || "",
       });
       setInitialFormData(clonedData);
       setFormData(clonedData);
@@ -230,6 +234,19 @@ export function Profile() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
+            {user && user.role === "partner" && (
+              <div>
+                <Label>Company Name</Label>
+                {isEditingProfile ? (
+                  <Input
+                    value={formData.companyName}
+                    onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+                  />
+                ) : (
+                  <p className="mt-1">{user?.companyName}</p>
+                )}
+              </div>
+            )}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <Label>First Name</Label>
@@ -336,17 +353,21 @@ export function Profile() {
                 )}
               </div>
             )}
-            {user?.role === "partner" &&  <div>
+            {user?.role === "partner" && (
+              <div>
                 <Label>Coordinates</Label>
                 {isEditingProfile ? (
                   <Input
                     value={formData.companyCoordinates}
-                    onChange={(e) => setFormData({ ...formData, companyCoordinates: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, companyCoordinates: e.target.value })
+                    }
                   />
                 ) : (
                   <p className="mt-1">{user?.companyCoordinates}</p>
                 )}
-              </div>}
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

@@ -178,7 +178,7 @@ export function ManageOpportunities() {
           ...values,
           partnerId: isAdmin ? values.partnerId : undefined,
         };
-        await api.post("/opportunities", submitData);
+        await api.post("/opportunities", { ...submitData, salary: Number(submitData.salary) });
         toast({
           title: "Success",
           description: "Opportunity created successfully",

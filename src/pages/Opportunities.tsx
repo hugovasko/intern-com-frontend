@@ -355,12 +355,12 @@ export function Opportunities() {
                               {opportunity.type === "full-time" ? "Full-Time" : "Internship"}
                             </span>
                           </div>
-                          {opportunity.salary && (
+                          {opportunity.salary ? (
                             <div className="flex items-center gap-2">
                               <DollarSign className="h-4 w-4 flex-shrink-0" />
                               <span>{formatSalary(opportunity.salary)}</span>
                             </div>
-                          )}
+                          ) : null}
                         </div>
                       </CardHeader>
                       <CardContent>
