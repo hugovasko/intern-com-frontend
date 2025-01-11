@@ -8,7 +8,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import api from "@/lib/api";
 import { MapPin, Briefcase, DollarSign, Building, FilterX, Filter } from "lucide-react";
