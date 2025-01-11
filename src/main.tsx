@@ -6,7 +6,6 @@ import {
   createRoutesFromElements,
   Route,
   RouterProvider,
-  ScrollRestoration,
 } from "react-router-dom";
 import { Home } from "./pages/Home.tsx";
 import { CandidateContacts } from "./pages/CandidateContacts.tsx";
@@ -20,7 +19,7 @@ import { Community } from "./pages/Community.tsx";
 import { AuthPage } from "./pages/AuthPage.tsx";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Profile } from "./pages/Profile.tsx";
-import { RootLayout } from "./components/layouts/RootLayout";
+import { RootLayout } from "./layouts/RootLayout.tsx";
 import { AdminPanel } from "./pages/AdminPanel.tsx";
 import { ManageOpportunities } from "./pages/ManageOpportunities.tsx";
 import { OpportunityDetails } from "./pages/OpportunityDetails.tsx";

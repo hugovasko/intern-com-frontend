@@ -29,6 +29,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { UserCircle, LogOut, Settings } from "lucide-react";
+import { ModeToggle } from "./mode-toggle";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -165,7 +166,8 @@ export function Navbar() {
           </Link>
 
           {/* Mobile menu with Sheet */}
-          <div className="md:hidden">
+          <div className="md:hidden flex gap-3">
+            <ModeToggle />
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon">
@@ -344,6 +346,7 @@ export function Navbar() {
           {/* Desktop authentication buttons */}
           {!loading && (
             <div className="hidden md:flex items-center gap-4">
+              <ModeToggle />
               {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
