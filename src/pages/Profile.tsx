@@ -13,6 +13,7 @@ interface FormData {
   firstName: string;
   lastName: string;
   phoneNumber: string;
+  companyCoordinates: string;
 }
 
 export function Profile() {
@@ -25,11 +26,13 @@ export function Profile() {
     firstName: "",
     lastName: "",
     phoneNumber: "",
+    companyCoordinates: "",
   });
   const [initialFormData, setInitialFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
     phoneNumber: "",
+    companyCoordinates: "",
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -39,6 +42,7 @@ export function Profile() {
         firstName: user.firstName || "",
         lastName: user.lastName || "",
         phoneNumber: user.phoneNumber || "",
+        companyCoordinates: user.companyCoordinates || "",
       });
       setInitialFormData(clonedData);
       setFormData(clonedData);
@@ -268,68 +272,81 @@ export function Profile() {
               <p className="mt-1">{user?.email}</p>
             </div>
 
-            <div className="space-y-4 flex flex-col">
-              <Label>CV Document</Label>
+            {user?.role === "candidate" && (
+              <div className="space-y-4 flex flex-col">
+                <Label>CV Document</Label>
 
-              {isReplacingCV ? (
-                // CV upload form is active
-                <div className="space-y-4">
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <Input
-                      type="file"
-                      accept=".pdf,.doc,.docx"
-                      onChange={handleFileSelect}
-                      ref={fileInputRef}
-                      className="flex-1"
-                    />
-                    {selectedFile && (
-                      <div className="grid grid-cols-2 sm:flex gap-2">
-                        <Button onClick={previewSelectedFile}>
-                          <Eye className="h-4 w-4 mr-2" />
-                          Preview
-                        </Button>
-                        <Button onClick={handleUpload}>
-                          <Upload className="h-4 w-4 mr-2" />
-                          Upload
-                        </Button>
-                      </div>
-                    )}
+                {isReplacingCV ? (
+                  // CV upload form is active
+                  <div className="space-y-4">
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <Input
+                        type="file"
+                        accept=".pdf,.doc,.docx"
+                        onChange={handleFileSelect}
+                        ref={fileInputRef}
+                        className="flex-1"
+                      />
+                      {selectedFile && (
+                        <div className="grid grid-cols-2 sm:flex gap-2">
+                          <Button onClick={previewSelectedFile}>
+                            <Eye className="h-4 w-4 mr-2" />
+                            Preview
+                          </Button>
+                          <Button onClick={handleUpload}>
+                            <Upload className="h-4 w-4 mr-2" />
+                            Upload
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                    <Button variant="outline" onClick={handleCancel} className="w-full sm:w-auto">
+                      Cancel
+                    </Button>
                   </div>
-                  <Button variant="outline" onClick={handleCancel} className="w-full sm:w-auto">
-                    Cancel
+                ) : user?.cvFileName ? (
+                  // User has CV and not replacing - show view, replace, remove options
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                    <span className="break-all">{user.cvFileName}</span>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 w-full sm:w-auto">
+                      <Button onClick={handleViewCV}>
+                        <Eye className="h-4 w-4 mr-2" />
+                        View CV
+                      </Button>
+                      <Button onClick={() => setIsReplacingCV(true)}>
+                        <FilePenLine className="h-4 w-4 mr-2" />
+                        Replace CV
+                      </Button>
+                      <Button
+                        variant="destructive"
+                        onClick={handleRemoveCV}
+                        className="col-span-2 sm:col-span-1"
+                      >
+                        <Trash2 className="h-4 w-4 mr-2" />
+                        Remove CV
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  // No CV and not replacing - show upload button
+                  <Button onClick={() => setIsReplacingCV(true)}>
+                    <Upload className="h-4 w-4 mr-2" />
+                    Upload CV
                   </Button>
-                </div>
-              ) : user?.cvFileName ? (
-                // User has CV and not replacing - show view, replace, remove options
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                  <span className="break-all">{user.cvFileName}</span>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 w-full sm:w-auto">
-                    <Button onClick={handleViewCV}>
-                      <Eye className="h-4 w-4 mr-2" />
-                      View CV
-                    </Button>
-                    <Button onClick={() => setIsReplacingCV(true)}>
-                      <FilePenLine className="h-4 w-4 mr-2" />
-                      Replace CV
-                    </Button>
-                    <Button
-                      variant="destructive"
-                      onClick={handleRemoveCV}
-                      className="col-span-2 sm:col-span-1"
-                    >
-                      <Trash2 className="h-4 w-4 mr-2" />
-                      Remove CV
-                    </Button>
-                  </div>
-                </div>
-              ) : (
-                // No CV and not replacing - show upload button
-                <Button onClick={() => setIsReplacingCV(true)}>
-                  <Upload className="h-4 w-4 mr-2" />
-                  Upload CV
-                </Button>
-              )}
-            </div>
+                )}
+              </div>
+            )}
+            {user?.role === "partner" &&  <div>
+                <Label>Coordinates</Label>
+                {isEditingProfile ? (
+                  <Input
+                    value={formData.companyCoordinates}
+                    onChange={(e) => setFormData({ ...formData, companyCoordinates: e.target.value })}
+                  />
+                ) : (
+                  <p className="mt-1">{user?.companyCoordinates}</p>
+                )}
+              </div>}
           </CardContent>
         </Card>
       </div>
