@@ -117,7 +117,7 @@ export function OpportunityDetails() {
           <h1 className="text-3xl font-bold tracking-tight">{opportunity.title}</h1>
           <div className="flex flex-wrap gap-2">
             <Badge variant="default" className="text-sm">
-              {opportunity.type}
+              {opportunity.type === "full-time" ? "Full-Time" : "Internship"}
             </Badge>
             {opportunity?.salary ? (
               <Badge variant="default" className="text-sm">
@@ -133,10 +133,7 @@ export function OpportunityDetails() {
               <div className="flex justify-between">
                 <div className="flex items-center gap-2 text-lg font-semibold">
                   <Building className="h-5 w-5" />
-                  <span>
-                    {opportunity.company.companyName ||
-                      `${opportunity.company.firstName} ${opportunity.company.lastName}`}
-                  </span>
+                  <span>{opportunity.company.companyName}</span>
                 </div>
                 {user && user.role === "candidate" && <Button>Apply</Button>}
                 {!user && <Button variant="secondary">Login to apply</Button>}
@@ -149,7 +146,7 @@ export function OpportunityDetails() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Briefcase className="h-4 w-4" />
-                  <span>{opportunity.type}</span>
+                  <span>{opportunity.type === "full-time" ? "Full-Time" : "Internship"}</span>
                 </div>
                 {opportunity?.salary ? (
                   <div className="flex items-center gap-2">

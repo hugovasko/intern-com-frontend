@@ -41,7 +41,7 @@ interface Opportunity {
 interface Filters {
   type: string;
   location: string;
-  field: string;
+  company: string;
   salary: number | string;
 }
 
@@ -53,13 +53,13 @@ export function Opportunities() {
 
   const [filters, setFilters] = useState<Filters>({
     type: searchParams.get("type") || "all",
-    location: searchParams.get("location") || "",
-    field: searchParams.get("field") || "all",
+    location: searchParams.get("location") || "all",
+    company: searchParams.get("company") || "all",
     salary: searchParams.get("salary") || "all",
   });
 
   const [uniqueLocations, setUniqueLocations] = useState<string[]>([]);
-  const [uniqueFields, setUniqueFields] = useState<string[]>([]);
+  const [uniqueCompanies, setUniqueCompanies] = useState<string[]>([]);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -72,8 +72,8 @@ export function Opportunities() {
 
     const params: Record<string, string> = {};
     if (filters.type !== "all") params["type"] = filters.type;
-    if (filters.location) params["location"] = filters.location;
-    if (filters.field !== "all") params["field"] = filters.field;
+    if (filters.location !== "all") params["location"] = filters.location;
+    if (filters.company !== "all") params["company"] = filters.company;
     if (filters.salary !== "all") params["salary"] = filters.salary.toString();
 
     setSearchParams(params, { replace: true });
@@ -97,9 +97,9 @@ export function Opportunities() {
 
   const extractUniqueFilters = () => {
     const locations = [...new Set(opportunities.map((opp) => opp.location))];
-    const fields = [...new Set(opportunities.map((opp) => opp.company.companyName))];
+    const companies = [...new Set(opportunities.map((opp) => opp.company.companyName))];
     setUniqueLocations(locations);
-    setUniqueFields(fields);
+    setUniqueCompanies(companies);
   };
 
   const applyFilters = () => {
@@ -111,12 +111,12 @@ export function Opportunities() {
       );
     }
 
-    if (filters.location) {
+    if (filters.location !== "all") {
       result = result.filter((opportunity) => opportunity.location === filters.location);
     }
 
-    if (filters.field !== "all") {
-      result = result.filter((opportunity) => opportunity.company.companyName === filters.field);
+    if (filters.company !== "all") {
+      result = result.filter((opportunity) => opportunity.company.companyName === filters.company);
     }
 
     if (filters.salary !== "all") {
@@ -140,8 +140,8 @@ export function Opportunities() {
   const clearFilters = () => {
     setFilters({
       type: "all",
-      location: "",
-      field: "all",
+      location: "all",
+      company: "all",
       salary: "all",
     });
     setSearchParams({});
@@ -150,8 +150,8 @@ export function Opportunities() {
   const getActiveFiltersCount = () => {
     let count = 0;
     if (filters.type !== "all") count++;
-    if (filters.location) count++;
-    if (filters.field !== "all") count++;
+    if (filters.location !== "all") count++;
+    if (filters.company !== "all") count++;
     if (filters.salary !== "all") count++;
     return count;
   };
@@ -187,6 +187,7 @@ export function Opportunities() {
             <SelectValue placeholder="Location" />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value="all">All Locations</SelectItem>
             {uniqueLocations.map((location) => (
               <SelectItem key={location} value={location}>
                 {location}
@@ -195,15 +196,18 @@ export function Opportunities() {
           </SelectContent>
         </Select>
 
-        <Select onValueChange={(value) => handleFilterChange("field", value)} value={filters.field}>
+        <Select
+          onValueChange={(value) => handleFilterChange("company", value)}
+          value={filters.company}
+        >
           <SelectTrigger className="w-full">
-            <SelectValue placeholder="Field (Company)" />
+            <SelectValue placeholder="Company" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Fields</SelectItem>
-            {uniqueFields.map((field) => (
-              <SelectItem key={field} value={field}>
-                {field}
+            <SelectItem value="all">All Companies</SelectItem>
+            {uniqueCompanies.map((company) => (
+              <SelectItem key={company} value={company}>
+                {company}
               </SelectItem>
             ))}
           </SelectContent>
@@ -347,7 +351,9 @@ export function Opportunities() {
                           </div>
                           <div className="flex items-center gap-2">
                             <Briefcase className="h-4 w-4 flex-shrink-0" />
-                            <span>{opportunity.type}</span>
+                            <span>
+                              {opportunity.type === "full-time" ? "Full-Time" : "Internship"}
+                            </span>
                           </div>
                           {opportunity.salary && (
                             <div className="flex items-center gap-2">
