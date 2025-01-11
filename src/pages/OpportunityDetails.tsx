@@ -1,10 +1,12 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Briefcase, DollarSign, Building, Calendar } from "lucide-react";
 import api from "@/lib/api";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface Opportunity {
   id: number;
@@ -26,6 +28,9 @@ export function OpportunityDetails() {
   const [opportunity, setOpportunity] = useState<Opportunity | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { user } = useAuth();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (id) {
@@ -104,7 +109,10 @@ export function OpportunityDetails() {
 
   return (
     <div className="container mx-auto py-8">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-3xl mx-auto p-3 sm:p-0">
+        <Button onClick={() => navigate(-1)} variant="outline" className="mb-5">
+          Back
+        </Button>
         <div className="mb-6 space-y-4">
           <h1 className="text-3xl font-bold tracking-tight">{opportunity.title}</h1>
           <div className="flex flex-wrap gap-2">
@@ -122,12 +130,16 @@ export function OpportunityDetails() {
         <Card>
           <CardHeader>
             <div className="space-y-4">
-              <div className="flex items-center gap-2 text-lg font-semibold">
-                <Building className="h-5 w-5" />
-                <span>
-                  {opportunity.company.companyName ||
-                    `${opportunity.company.firstName} ${opportunity.company.lastName}`}
-                </span>
+              <div className="flex justify-between">
+                <div className="flex items-center gap-2 text-lg font-semibold">
+                  <Building className="h-5 w-5" />
+                  <span>
+                    {opportunity.company.companyName ||
+                      `${opportunity.company.firstName} ${opportunity.company.lastName}`}
+                  </span>
+                </div>
+                {user && user.role === "candidate" && <Button>Apply</Button>}
+                {!user && <Button variant="secondary">Login to apply</Button>}
               </div>
 
               <div className="grid gap-3 text-sm text-muted-foreground">

@@ -6,6 +6,7 @@ import {
   createRoutesFromElements,
   Route,
   RouterProvider,
+  ScrollRestoration,
 } from "react-router-dom";
 import { Home } from "./pages/Home.tsx";
 import { CandidateContacts } from "./pages/CandidateContacts.tsx";
