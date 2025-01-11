@@ -89,7 +89,7 @@ interface Opportunity {
   title: string;
   description: string;
   location: string;
-  salary?: string;
+  salary?: number;
   type: string;
   createdAt: string;
   company: Company;
@@ -142,7 +142,7 @@ export function ManageOpportunities() {
         title: editingOpportunity.title,
         description: editingOpportunity.description,
         location: editingOpportunity.location,
-        salary: editingOpportunity.salary || "",
+        salary: editingOpportunity.salary?.toString() || "",
         type: editingOpportunity.type as "internship" | "full-time",
       });
     }
@@ -165,7 +165,10 @@ export function ManageOpportunities() {
   const onSubmit = async (values: z.infer<typeof opportunitySchema>) => {
     try {
       if (editingOpportunity) {
-        await api.patch(`/opportunities/${editingOpportunity.id}`, values);
+        await api.patch(`/opportunities/${editingOpportunity.id}`, {
+          ...values,
+          salary: Number(values.salary),
+        });
         toast({
           title: "Success",
           description: "Opportunity updated successfully",
@@ -326,7 +329,7 @@ export function ManageOpportunities() {
                     <FormItem>
                       <FormLabel>Salary (Optional)</FormLabel>
                       <FormControl>
-                        <Input placeholder="$50,000 - $60,000" {...field} />
+                        <Input placeholder="1000" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
