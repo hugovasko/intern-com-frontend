@@ -15,6 +15,7 @@ export interface User {
   cvMimeType?: string;
   phoneNumber?: string;
   createdAt: string;
+  companyCoordinates?: string;
 }
 
 interface AuthContextType {
