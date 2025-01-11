@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import api from "@/lib/api";
+import { Label } from "@/components/ui/label";
 
 const MapPage: FC<MapPageProps> = () => {
   const [partnersCoordinates, setPartnersCoordinates] = useState<PartnerCoordanes[]>([]);
@@ -46,7 +47,13 @@ const MapPage: FC<MapPageProps> = () => {
                 const longitude = Number(coordinates[1]);
                 return (
                   <Marker position={[latitude, longitude]}>
-                    <Popup>{partner.companyName}</Popup>
+                    <Popup>
+                      <div className="flex flex-col gap-1">
+                        <Label>Name: {partner.companyName}</Label>
+                        {partner.email && <Label>Email: {partner.email}</Label>}
+                        {partner.phoneNumber && <Label>Phone: {partner.phoneNumber}</Label>}
+                      </div>
+                    </Popup>
                   </Marker>
                 );
               }
@@ -65,4 +72,6 @@ interface PartnerCoordanes {
   id: string;
   companyName: string;
   companyCoordinates?: string;
+  phoneNumber?: string;
+  email: string;
 }
