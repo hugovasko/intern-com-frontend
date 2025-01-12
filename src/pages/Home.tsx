@@ -32,7 +32,7 @@ export function Home() {
           <div className="pt-4">
             <Button size="lg" onClick={() => navigate("/opportunities")} className="px-8">
               <FileSearch className="mr-2 h-5 w-5" />
-              Browse Opportunities
+              {t("home.hero.button")}
             </Button>
           </div>
         </div>
@@ -48,28 +48,28 @@ export function Home() {
             <CardHeader>
               <CardTitle className="flex items-center text-2xl">
                 <Users className="h-6 w-6 mr-2" />
-                For Candidates
+                {t("home.hero.card1")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-start space-x-3">
                 <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                <p className="text-muted-foreground">Find your dream internship or job position</p>
+                <p className="text-muted-foreground">{t("home.hero.card1text1")}</p>
               </div>
               <div className="flex items-start space-x-3">
                 <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                <p className="text-muted-foreground">Apply directly to top companies</p>
+                <p className="text-muted-foreground">{t("home.hero.card1text2")}</p>
               </div>
               <div className="flex items-start space-x-3">
                 <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                <p className="text-muted-foreground">Track your applications in one place</p>
+                <p className="text-muted-foreground">{t("home.hero.card1text3")}</p>
               </div>
               <Button
                 variant="secondary"
                 className="w-full mt-4"
                 onClick={() => navigate("/auth/register")}
               >
-                Sign Up as Candidate
+                {t("home.hero.card1button")}
               </Button>
             </CardContent>
           </Card>
@@ -81,30 +81,28 @@ export function Home() {
             <CardHeader>
               <CardTitle className="flex items-center text-2xl">
                 <Briefcase className="h-6 w-6 mr-2" />
-                For Companies
+                {t("home.hero.card2")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-start space-x-3">
                 <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                <p className="text-muted-foreground">
-                  Post opportunities and find talented candidates
-                </p>
+                <p className="text-muted-foreground">{t("home.hero.card2text1")}</p>
               </div>
               <div className="flex items-start space-x-3">
                 <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                <p className="text-muted-foreground">Streamline your recruitment process</p>
+                <p className="text-muted-foreground">{t("home.hero.card2text2")}</p>
               </div>
               <div className="flex items-start space-x-3">
                 <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                <p className="text-muted-foreground">Connect with the best emerging talent</p>
+                <p className="text-muted-foreground">{t("home.hero.card2text3")}</p>
               </div>
               <Button
                 variant="secondary"
                 className="w-full mt-4"
                 onClick={() => navigate("/auth/partnerRegister")}
               >
-                Join as Company
+                {t("home.hero.card2button")}
               </Button>
             </CardContent>
           </Card>
@@ -114,46 +112,38 @@ export function Home() {
       {/* Features Section */}
       <section className="container mx-auto px-4 py-12 md:py-16">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tight">Why Choose Us?</h2>
-          <p className="text-muted-foreground mt-2">
-            We make it easy to connect talent with opportunities
-          </p>
+          <h2 className="text-3xl font-bold tracking-tight">{t("home.hero.features.title")}</h2>
+          <p className="text-muted-foreground mt-2">{t("home.hero.features.description")}</p>
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
           <Card>
             <CardHeader>
               <Zap className="h-10 w-10 text-primary mb-2" />
-              <CardTitle>Easy Application</CardTitle>
+              <CardTitle>{t("home.hero.features.card1")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
-                Streamlined process to help you find and apply to opportunities quickly.
-              </p>
+              <p className="text-muted-foreground">{t("home.hero.features.description1")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
               <Target className="h-10 w-10 text-primary mb-2" />
-              <CardTitle>Quality Opportunities</CardTitle>
+              <CardTitle>{t("home.hero.features.card2")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
-                Curated listings from verified companies and organizations.
-              </p>
+              <p className="text-muted-foreground">{t("home.hero.features.description2")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
               <LineChart className="h-10 w-10 text-primary mb-2" />
-              <CardTitle>Career Growth</CardTitle>
+              <CardTitle>{t("home.hero.features.card3")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
-                Find opportunities that align with your career goals and aspirations.
-              </p>
+              <p className="text-muted-foreground">{t("home.hero.features.description3")}</p>
             </CardContent>
           </Card>
         </div>
