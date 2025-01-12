@@ -25,6 +25,7 @@ import { ManageOpportunities } from "./pages/ManageOpportunities.tsx";
 import { OpportunityDetails } from "./pages/OpportunityDetails.tsx";
 import PrivacyPolicy from "./pages/Privacy.tsx";
 import MapPage from "./pages/MapPage.tsx";
+import ApplicationsPage from "./pages/ApplicationsPage.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -49,6 +50,14 @@ const router = createBrowserRouter(
         element={
           <ProtectedRoute>
             <Profile />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/applications"
+        element={
+          <ProtectedRoute>
+            <ApplicationsPage />
           </ProtectedRoute>
         }
       />

@@ -6,14 +6,12 @@ const CareerAssistant = () => {
     <div className="container mx-auto px-4 py-12">
       <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-16">
         <div className="flex-1 md:text-left">
-          <h1 className="text-4xl font-bold mb-6 text-gray-800">Career Assistant</h1>
-          <p className=" text-gray-600">
+          <h1 className="text-4xl font-bold mb-6 text-primary">Career Assistant</h1>
+          <p>
             <div className="mt-8 space-y-3">
               <div className="flex items-center text-green-600">
                 <CheckCircle className="mr-3" size={24} />
-                <span className="text-gray-700 text-xl">
-                  Self-Assessment and Clarify Your Goals
-                </span>
+                <span className="text-xl">Self-Assessment and Clarify Your Goals</span>
               </div>
             </div>
             <br />
@@ -30,9 +28,7 @@ const CareerAssistant = () => {
             <div className="mt-8 space-y-3">
               <div className="flex items-center text-green-600">
                 <CheckCircle className="mr-3" size={24} />
-                <span className="text-gray-700 text-xl">
-                  Continuous Learning and Skill Development
-                </span>
+                <span className="text-xl">Continuous Learning and Skill Development</span>
               </div>
             </div>
             <br />
@@ -50,7 +46,7 @@ const CareerAssistant = () => {
             <div className="mt-8 space-y-3">
               <div className="flex items-center text-green-600">
                 <CheckCircle className="mr-3" size={24} />
-                <span className="text-gray-700 text-xl">Gain Relevant Experience</span>
+                <span className="text-xl">Gain Relevant Experience</span>
               </div>
             </div>
             <br />
@@ -66,7 +62,7 @@ const CareerAssistant = () => {
             <div className="mt-8 space-y-3">
               <div className="flex items-center text-green-600">
                 <CheckCircle className="mr-3" size={24} />
-                <span className="text-gray-700 text-xl">Network and Build Relationships</span>
+                <span className="text-xl">Network and Build Relationships</span>
               </div>
             </div>
             <br />
@@ -86,11 +82,11 @@ const CareerAssistant = () => {
         </div>
         <div className="flex-1 relative  ">
           <img src={career} alt="Partners" className="w-full h-auto object-cover " />
-          <p className=" text-gray-600">
+          <p>
             <div className="mt-8 space-y-3">
               <div className="flex items-center text-green-600">
                 <CheckCircle className="mr-3" size={24} />
-                <span className="text-gray-700 text-xl">Find the Right Career Fit</span>
+                <span className="text-xl">Find the Right Career Fit</span>
               </div>
             </div>
             <br />
@@ -111,7 +107,7 @@ const CareerAssistant = () => {
             <div className="mt-8 space-y-3">
               <div className="flex items-center text-green-600">
                 <CheckCircle className="mr-3" size={24} />
-                <span className="text-gray-700 text-xl">Adapt and Stay Open to Change</span>
+                <span className="text-xl">Adapt and Stay Open to Change</span>
               </div>
             </div>
             <br />
@@ -126,7 +122,7 @@ const CareerAssistant = () => {
             <div className="mt-8 space-y-3">
               <div className="flex items-center text-green-600">
                 <CheckCircle className="mr-3" size={24} />
-                <span className="text-gray-700 text-xl">Focus on Well-Being</span>
+                <span className="text-xl">Focus on Well-Being</span>
               </div>
             </div>
             <br />

@@ -7,6 +7,7 @@ import { MapPin, Briefcase, DollarSign, Building, Calendar } from "lucide-react"
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 interface Opportunity {
   id: number;
@@ -27,16 +28,33 @@ export function OpportunityDetails() {
   const { id } = useParams<{ id: string }>();
   const [opportunity, setOpportunity] = useState<Opportunity | null>(null);
   const [loading, setLoading] = useState(true);
+  const [applicationLoading, setApplicationLoading] = useState(false);
+  const [hasApplied, setHasApplied] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const { user } = useAuth();
-
+  const { toast } = useToast();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (id) {
       fetchOpportunityDetails(id);
+      if (user?.role === "candidate") {
+        checkApplicationStatus();
+      }
     }
-  }, [id]);
+  }, [id, user]);
+
+  const checkApplicationStatus = async () => {
+    try {
+      const response = await api.get("/applications/my-applications");
+      const hasAlreadyApplied = response.data.some(
+        (application: any) => application.opportunity.id === Number(id)
+      );
+      setHasApplied(hasAlreadyApplied);
+    } catch (error) {
+      console.error("Failed to check application status: ", error);
+    }
+  };
 
   const fetchOpportunityDetails = async (id: string) => {
     try {
@@ -45,11 +63,51 @@ export function OpportunityDetails() {
       setOpportunity(response.data);
       setError(null);
     } catch (error) {
-      console.error("Failed to fetch opportunity details", error);
+      console.error("Failed to fetch opportunity details. ", error);
       setError("Failed to load opportunity details. Please try again later.");
     } finally {
       setLoading(false);
     }
+  };
+
+  const applyForOpportunity = async () => {
+    if (!opportunity) {
+      return;
+    }
+    try {
+      setApplicationLoading(true);
+      await api.post("/applications", {
+        opportunityId: opportunity.id,
+        message: "",
+      });
+
+      setHasApplied(true);
+
+      toast({
+        title: "Success",
+        description: "Successfully applied for this opportunity!",
+      });
+    } catch (error: any) {
+      console.error("Failed to apply for this opportunity: ", error);
+
+      toast({
+        title: "Error",
+        description:
+          error.response?.data?.message ||
+          "Failed to apply for this opportunity. Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setApplicationLoading(false);
+    }
+  };
+
+  const handleApplyClick = () => {
+    if (!user) {
+      navigate("auth/login");
+      return;
+    }
+    applyForOpportunity();
   };
 
   if (loading) {
@@ -135,8 +193,21 @@ export function OpportunityDetails() {
                   <Building className="h-5 w-5" />
                   <span>{opportunity.company.companyName}</span>
                 </div>
-                {user && user.role === "candidate" && <Button>Apply</Button>}
-                {!user && <Button variant="secondary">Login to apply</Button>}
+                {user?.role === "candidate" &&
+                  (hasApplied ? (
+                    <Button variant="secondary" disabled>
+                      Already Applied
+                    </Button>
+                  ) : (
+                    <Button onClick={handleApplyClick} disabled={applicationLoading}>
+                      {applicationLoading ? "Applying..." : "Apply"}
+                    </Button>
+                  ))}
+                {!user && (
+                  <Button variant="secondary" onClick={() => navigate("/auth/login")}>
+                    Login to apply
+                  </Button>
+                )}
               </div>
 
               <div className="grid gap-3 text-sm text-muted-foreground">

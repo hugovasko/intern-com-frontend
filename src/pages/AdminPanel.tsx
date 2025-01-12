@@ -57,8 +57,9 @@ export function AdminPanel() {
   const fetchUsers = async () => {
     try {
       const response = await api.get("/users");
-      setUsers(response.data);
-      setFilteredUsers(response.data);
+      const sortedUsers = response.data.sort((a: User, b: User) => a.id - b.id);
+      setUsers(sortedUsers);
+      setFilteredUsers(sortedUsers);
     } catch (error) {
       toast({
         title: "Error",

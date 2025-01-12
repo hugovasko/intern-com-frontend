@@ -120,7 +120,8 @@ export function ManageOpportunities() {
     if (isAdmin) {
       try {
         const response = await api.get("/users?role=partner");
-        setPartners(response.data);
+        const sortedPartners = response.data.sort((a: Partner, b: Partner) => a.id - b.id);
+        setPartners(sortedPartners);
       } catch (error) {
         toast({
           title: "Error",
@@ -152,7 +153,10 @@ export function ManageOpportunities() {
     try {
       const endpoint = isAdmin ? "/opportunities" : "/opportunities/my-opportunities";
       const response = await api.get(endpoint);
-      setOpportunities(response.data);
+      const sortedOpportunities = response.data.sort(
+        (a: Opportunity, b: Opportunity) => a.id - b.id
+      );
+      setOpportunities(sortedOpportunities);
     } catch (error) {
       toast({
         title: "Error",

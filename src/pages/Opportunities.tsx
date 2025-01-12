@@ -83,7 +83,10 @@ export function Opportunities() {
     try {
       setLoading(true);
       const response = await api.get("/opportunities");
-      setOpportunities(response.data);
+      const sortedOpportunities = response.data.sort(
+        (a: Opportunity, b: Opportunity) => a.id - b.id
+      );
+      setOpportunities(sortedOpportunities);
     } catch (error) {
       toast({
         title: "Error",

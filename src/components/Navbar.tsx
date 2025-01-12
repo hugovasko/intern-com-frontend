@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Link } from "react-router-dom";
-import { ChevronDown, Menu } from "lucide-react";
+import { ChevronDown, FileUser, Menu } from "lucide-react";
 import { useState } from "react";
 import { useScroll } from "@/hooks/useScroll";
 import { useAuth } from "@/contexts/AuthContext";
@@ -104,6 +104,12 @@ export function Navbar() {
             <Button variant="ghost" className="w-full justify-start">
               <UserCircle className="mr-2 h-4 w-4" />
               Profile
+            </Button>
+          </Link>
+          <Link to="/applications" className="w-full" onClick={handleLinkClick}>
+            <Button variant="ghost" className="w-full justify-start">
+              <FileUser className="mr-2 h-4 w-4" />
+              Applications
             </Button>
           </Link>
           {(user.role === "partner" || user.role === "admin") && (
@@ -367,6 +373,12 @@ export function Navbar() {
                       <Link to="/profile">
                         <UserCircle className="mr-2 h-4 w-4" />
                         Profile
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/applications">
+                        <FileUser className="mr-2 h-4 w-4" />
+                        Applications
                       </Link>
                     </DropdownMenuItem>
                     {(user.role === "partner" || user.role === "admin") && (
