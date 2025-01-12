@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "react-i18next";
 import {
   Briefcase,
   FileSearch,
@@ -15,6 +16,7 @@ import {
 
 export function Home() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen bg-background">
@@ -22,11 +24,10 @@ export function Home() {
       <section className="container mx-auto px-4 pt-16 pb-12 md:pt-24 md:pb-20">
         <div className="text-center space-y-6">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-            Welcome to Internship Connect
+            {t("home.hero.title")}
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Discover exciting internship opportunities and full-time positions. Connect with leading
-            companies and take the next step in your career.
+            {t("home.hero.description")}
           </p>
           <div className="pt-4">
             <Button size="lg" onClick={() => navigate("/opportunities")} className="px-8">

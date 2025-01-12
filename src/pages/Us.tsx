@@ -8,7 +8,7 @@ const Us: React.FC = () => {
         <section className="w-screen -mx-[50vw] left-[50%] relative bg-green-100 p-8">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16 w-full ">
-              <h1 className="text-5xl font-bold text-gray-800 mb-6">About Intern.com</h1>
+              <h1 className="text-5xl font-bold text-primary mb-6">About Intern.com</h1>
               <p className="max-w-3xl mx-auto text-xl font-semibold text-gray-600">
                 We are a passionate team dedicated to bridging the gap between talented young
                 professionals and innovative companies, creating meaningful career opportunities.
@@ -16,8 +16,8 @@ const Us: React.FC = () => {
               </p>
               <div className="flex flex-col md:flex-row justify-between p-2 gap-8">
                 <div className="flex-1 md:text-left">
-                  <h2 className="text-4xl font-bold mb-8 text-gray-800">Our Team</h2>
-                  <div className="space-y-4 text-left text-black-600">
+                  <h2 className="text-4xl font-bold mb-8 text-primary">Our Team</h2>
+                  <div className="space-y-4 text-left text-black">
                     <p>
                       Behind the creation and maintenance of Intern.com is the unwavering dedication
                       of a diverse group of professionals, each contributing their expertise to a
@@ -63,7 +63,7 @@ const Us: React.FC = () => {
             <div className="text-center mb-16 w-full ">
               <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-16">
                 <div className="flex-1 md:text-left">
-                  <h2 className="text-4xl font-bold mb-6 text-gray-800">Mission and Values</h2>
+                  <h2 className="text-4xl font-bold mb-6 text-primary">Mission and Values</h2>
                   <div className="space-y-4 text-black-600">
                     <p>
                       The mission of Intern.com is to connect employers and young people, enabling
