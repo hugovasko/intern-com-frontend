@@ -4,6 +4,7 @@ import * as React from "react";
 import logo from "@/assets/1.png";
 import hiring from "@/assets/hiring.png";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -32,20 +33,8 @@ import { UserCircle, LogOut, Settings } from "lucide-react";
 import { ModeToggle } from "./mode-toggle";
 import { LanguageSelector } from "./languageSelector/LanguageSelector";
 
-const components: { title: string; href: string; description: string }[] = [
-  {
-    title: "Candidate Contacts",
-    href: "/candidatecontacts",
-    description: "Connect with top candidates and streamline recruitment.",
-  },
-  {
-    title: "Partners Contacts",
-    href: "/partnercontacts",
-    description: "Partner with top candidates for lasting success.",
-  },
-];
-
 export function Navbar() {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const { scrolled, visible } = useScroll();
@@ -56,6 +45,19 @@ export function Navbar() {
     setOpen(false);
   };
 
+  const components: { title: string; href: string; description: string }[] = [
+    {
+      title: t("navbar.candidateContacts"),
+      href: "/candidatecontacts",
+      description: t("navbar.text"),
+    },
+    {
+      title: t("navbar.partnersContacts"),
+      href: "/partnercontacts",
+      description: t("navbar.text1"),
+    },
+  ];
+
   const CandidatesMobileContent = () => (
     <div className="mt-2 px-2 pb-2">
       <Link
@@ -64,19 +66,21 @@ export function Navbar() {
         onClick={handleLinkClick}
       >
         <img src={hiring} alt="hire" className="h-32 w-full object-cover rounded-md" />
-        <div className="font-medium">Internships</div>
-        <p className="text-sm text-muted-foreground">
-          Launch your career with exciting internship opportunities!
-        </p>
+        <div className="font-medium"> {t("navbar.internships")}</div>
+        <p className="text-sm text-muted-foreground">{t("navbar.description")}</p>
       </Link>
-      <MobileListItem to="/opportunities" title="Opportunities" onClick={handleLinkClick}>
-        Scholarships, competitions and programs
+      <MobileListItem
+        to="/opportunities"
+        title={t("navbar.opportunities")}
+        onClick={handleLinkClick}
+      >
+        {t("navbar.subtext")}
       </MobileListItem>
-      <MobileListItem to="/calculator" title="Salary calculator" onClick={handleLinkClick}>
-        Use our salary calculator to estimate your potential earnings.
+      <MobileListItem to="/calculator" title={t("navbar.calculator")} onClick={handleLinkClick}>
+        {t("navbar.subtext2")}
       </MobileListItem>
-      <MobileListItem to="/community" title="Community" onClick={handleLinkClick}>
-        Join our community to connect, collaborate, and grow.
+      <MobileListItem to="/community" title={t("navbar.community")} onClick={handleLinkClick}>
+        {t("navbar.subtext3")}
       </MobileListItem>
     </div>
   );
@@ -104,20 +108,20 @@ export function Navbar() {
           <Link to="/profile" className="w-full" onClick={handleLinkClick}>
             <Button variant="ghost" className="w-full justify-start">
               <UserCircle className="mr-2 h-4 w-4" />
-              Profile
+              {t("navbar.profile")}
             </Button>
           </Link>
           <Link to="/applications" className="w-full" onClick={handleLinkClick}>
             <Button variant="ghost" className="w-full justify-start">
               <FileUser className="mr-2 h-4 w-4" />
-              Applications
+              {t("navbar.applications")}
             </Button>
           </Link>
           {(user.role === "partner" || user.role === "admin") && (
             <Link to="/opportunities/manage" className="w-full" onClick={handleLinkClick}>
               <Button variant="ghost" className="w-full justify-start">
                 <Settings className="mr-2 h-4 w-4" />
-                Manage Opportunities
+                {t("navbar.manage")}
               </Button>
             </Link>
           )}
@@ -125,7 +129,7 @@ export function Navbar() {
             <Link to="/admin" className="w-full" onClick={handleLinkClick}>
               <Button variant="ghost" className="w-full justify-start">
                 <Settings className="mr-2 h-4 w-4" />
-                Admin Panel
+                {t("navbar.admin")}
               </Button>
             </Link>
           )}
@@ -138,19 +142,19 @@ export function Navbar() {
             }}
           >
             <LogOut className="mr-2 h-4 w-4" />
-            Logout
+            {t("navbar.Logout")}
           </Button>
         </>
       ) : (
         <>
           <Link to="/auth/login" className="w-full" onClick={handleLinkClick}>
             <Button className="w-full" variant="default">
-              Log in
+              {t("navbar.login")}
             </Button>
           </Link>
           <Link to="/auth/register" className="w-full" onClick={handleLinkClick}>
             <Button className="w-full" variant="outline">
-              Register
+              {t("navbar.register")}
             </Button>
           </Link>
         </>
@@ -199,7 +203,7 @@ export function Navbar() {
                             setActiveMenu(activeMenu === "candidates" ? null : "candidates")
                           }
                         >
-                          Candidates
+                          {t("navbar.candidates")}
                           <ChevronDown
                             className={cn(
                               "h-4 w-4 transition-transform duration-200",
@@ -213,19 +217,19 @@ export function Navbar() {
                       {/* Regular Links */}
                       <Link to="/partners" className="w-full" onClick={handleLinkClick}>
                         <Button variant="ghost" className="w-full justify-start">
-                          Partners
+                          {t("navbar.partner")}
                         </Button>
                       </Link>
 
                       <Link to="/careerassistant" className="w-full" onClick={handleLinkClick}>
                         <Button variant="ghost" className="w-full justify-start">
-                          Career Assistant
+                          {t("navbar.career")}
                         </Button>
                       </Link>
 
                       <Link to="/us" className="w-full" onClick={handleLinkClick}>
                         <Button variant="ghost" className="w-full justify-start">
-                          Us
+                          {t("navbar.us")}
                         </Button>
                       </Link>
 
@@ -238,7 +242,7 @@ export function Navbar() {
                             setActiveMenu(activeMenu === "contacts" ? null : "contacts")
                           }
                         >
-                          Contacts
+                          {t("navbar.contacts")}
                           <ChevronDown
                             className={cn(
                               "h-4 w-4 transition-transform duration-200",
@@ -250,7 +254,7 @@ export function Navbar() {
                       </div>
                       <Link to="/map" className="w-full" onClick={handleLinkClick}>
                         <Button variant="ghost" className="w-full justify-start">
-                          Map
+                          {t("navbar.map")}
                         </Button>
                       </Link>
                     </div>
@@ -268,7 +272,7 @@ export function Navbar() {
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger>Candidates</NavigationMenuTrigger>
+                  <NavigationMenuTrigger>{t("navbar.candidates")}</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid gap-3 p-5 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                       <li className="row-span-3">
@@ -282,22 +286,23 @@ export function Navbar() {
                               alt="hire"
                               className="h-70 w-70 object-cover rounded-md"
                             />
-                            <div className="mb-2 mt-4 text-lg font-medium">Internships</div>
+                            <div className="mb-2 mt-4 text-lg font-medium">
+                              {t("navbar.internships")}
+                            </div>
                             <p className="text-sm leading-tight text-muted-foreground">
-                              Launch your career with exciting internship opportunities & your first
-                              job experience!
+                              {t("navbar.description")}
                             </p>
                           </Link>
                         </NavigationMenuLink>
                       </li>
-                      <ListItem to="/opportunities" title="Opportunities">
-                        Scholarships, competitions and programs
+                      <ListItem to="/opportunities" title={t("navbar.opportunities")}>
+                        {t("navbar.subtext")}
                       </ListItem>
-                      <ListItem to="/calculator" title="Salary calculator">
-                        Use our salary calculator to estimate your potential earnings.
+                      <ListItem to="/calculator" title={t("navbar.calculator")}>
+                        {t("navbar.subtext2")}
                       </ListItem>
-                      <ListItem to="/community" title="Community">
-                        Join our community to connect, collaborate, and grow.
+                      <ListItem to="/community" title={t("navbar.community")}>
+                        {t("navbar.subtext3")}
                       </ListItem>
                     </ul>
                   </NavigationMenuContent>
@@ -306,7 +311,7 @@ export function Navbar() {
                 <NavigationMenuItem>
                   <Link to="/partners">
                     <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                      Partners
+                      {t("navbar.partner")}
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
@@ -314,7 +319,7 @@ export function Navbar() {
                 <NavigationMenuItem>
                   <Link to="/careerassistant">
                     <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                      Career Assistant
+                      {t("navbar.career")}
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
@@ -322,13 +327,13 @@ export function Navbar() {
                 <NavigationMenuItem>
                   <Link to="/us">
                     <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                      Us
+                      {t("navbar.us")}
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger>Contacts</NavigationMenuTrigger>
+                  <NavigationMenuTrigger>{t("navbar.contacts")}</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[300px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                       {components.map((component) => (
@@ -343,7 +348,7 @@ export function Navbar() {
                 <NavigationMenuItem>
                   <Link to="/map">
                     <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                      Map
+                      {t("navbar.map")}
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
@@ -371,25 +376,25 @@ export function Navbar() {
                     </Avatar>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuLabel> {t("navbar.account")}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
                       <Link to="/profile">
                         <UserCircle className="mr-2 h-4 w-4" />
-                        Profile
+                        {t("navbar.profile")}
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link to="/applications">
                         <FileUser className="mr-2 h-4 w-4" />
-                        Applications
+                        {t("navbar.application")}
                       </Link>
                     </DropdownMenuItem>
                     {(user.role === "partner" || user.role === "admin") && (
                       <DropdownMenuItem asChild>
                         <Link to="/opportunities/manage">
                           <Settings className="mr-2 h-4 w-4" />
-                          Manage Opportunities
+                          {t("navbar.manage")}
                         </Link>
                       </DropdownMenuItem>
                     )}
@@ -397,24 +402,24 @@ export function Navbar() {
                       <DropdownMenuItem asChild>
                         <Link to="/admin">
                           <Settings className="mr-2 h-4 w-4" />
-                          Admin Panel
+                          {t("navbar.admin")}
                         </Link>
                       </DropdownMenuItem>
                     )}
                     <DropdownMenuItem onClick={logout}>
                       <LogOut className="mr-2 h-4 w-4" />
-                      Logout
+                      {t("navbar.logout")}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
                 <>
                   <Link to="/auth/login">
-                    <Button className="px-4 py-2 text-sm font-medium">Log in</Button>
+                    <Button className="px-4 py-2 text-sm font-medium"> {t("navbar.login")}</Button>
                   </Link>
                   <Link to="/auth/register">
                     <Button variant="outline" className="px-4 py-2 text-sm font-medium">
-                      Register
+                      {t("navbar.register")}
                     </Button>
                   </Link>
                 </>
