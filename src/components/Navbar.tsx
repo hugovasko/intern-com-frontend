@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { UserCircle, LogOut, Settings } from "lucide-react";
 import { ModeToggle } from "./mode-toggle";
+import { LanguageSelector } from "./languageSelector/LanguageSelector";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -174,6 +175,7 @@ export function Navbar() {
           {/* Mobile menu with Sheet */}
           <div className="md:hidden flex gap-3">
             <ModeToggle />
+            <LanguageSelector />
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon">
@@ -353,6 +355,8 @@ export function Navbar() {
           {!loading && (
             <div className="hidden md:flex items-center gap-4">
               <ModeToggle />
+              <LanguageSelector />
+
               {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>

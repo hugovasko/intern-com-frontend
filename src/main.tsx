@@ -26,6 +26,7 @@ import { OpportunityDetails } from "./pages/OpportunityDetails.tsx";
 import PrivacyPolicy from "./pages/Privacy.tsx";
 import MapPage from "./pages/MapPage.tsx";
 import ApplicationsPage from "./pages/ApplicationsPage.tsx";
+import "./i18n/i18n.ts";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
