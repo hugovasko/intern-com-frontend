@@ -63,7 +63,7 @@ export const translationBG: typeof translationEN = {
     subtext3:
       "Присъединете се към нашата общност, за да се свържете, да си сътрудничите и да растете.",
   },
-  
+
   us: {
     title: "За Intern.com",
     description:
@@ -220,7 +220,7 @@ export const translationBG: typeof translationEN = {
     no: "Не",
   },
 
-  languageSelector: {
+languageSelector: {
     selectLanguage: "Избери език",
     en: "АНГЛ",
     bg: "БГ",
