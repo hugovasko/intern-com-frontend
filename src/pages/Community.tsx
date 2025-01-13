@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next"; 
 
 const Community = () => {
   const [activeSection, setActiveSection] = useState<null | "Events" | "Discussions" | "Resources">(
     null
   );
-
+const {t}= useTranslation()
   const renderSectionContent = () => {
     switch (activeSection) {
       case "Events":
@@ -31,7 +32,7 @@ const Community = () => {
 
   return (
     <div className="flex flex-col justify-center items-center m-5 gap-4">
-      <h1 className="text-3xl font-bold text-center">Welcome to Our Community</h1>
+      <h1 className="text-3xl font-bold text-center">{t("community.title")}</h1>
       <p className="text-center text-gray-600 max-w-lg">
         Connect, share, and grow with others. Our community is a place where ideas flourish and
         connections are made.

@@ -416,4 +416,7 @@ export const translationBG: typeof translationEN = {
     en: "АНГЛ",
     bg: "БГ",
   },
+  community: {
+    title: "Добре дошли в нашата общност"
+  }
 };

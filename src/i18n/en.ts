@@ -414,4 +414,7 @@ export const translationEN = {
     en: "EN",
     bg: "BG",
   },
+  community: {
+    title: "Welcome to Our Community"
+  }
 };
