@@ -1,81 +1,69 @@
 import career from "../assets/careers.svg";
 import { CheckCircle } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const CareerAssistant = () => {
+  const { t } = useTranslation();
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-16">
         <div className="flex-1 md:text-left">
-          <h1 className="text-4xl font-bold mb-6 text-primary">Career Assistant</h1>
+          <h1 className="text-4xl font-bold mb-6 text-primary">{t("careerassistant.title")}</h1>
           <p>
             <div className="mt-8 space-y-3">
               <div className="flex items-center text-green-600">
                 <CheckCircle className="mr-3" size={24} />
-                <span className="text-xl">Self-Assessment and Clarify Your Goals</span>
+                <span className="text-xl"> {t("careerassistant.p")}</span>
               </div>
             </div>
             <br />
-            <strong>Understand Your Strengths: </strong>Reflect on what you're passionate about,
-            what motivates you, and where your natural talents lie. Knowing these will help you
-            identify the right career path.
+            <strong>{t("careerassistant.h1")} </strong> {t("careerassistant.p1")}
             <br />
             <br />
-            <strong>Set Clear Career Goals:</strong> Define both short-term and long-term goals.
-            What do you want to achieve in the next 1-3 years? And where do you see yourself in 5-10
-            years? Your goals will guide your decisions.
+            <strong>{t("careerassistant.h2")}</strong> {t("careerassistant.p2")}
             <br />
             <br />
             <div className="mt-8 space-y-3">
               <div className="flex items-center text-green-600">
                 <CheckCircle className="mr-3" size={24} />
-                <span className="text-xl">Continuous Learning and Skill Development</span>
+                <span className="text-xl"> {t("careerassistant.h3")}</span>
               </div>
             </div>
             <br />
             <br />
-            <strong>Keep Learning:</strong> In today’s fast-changing job market, acquiring new
-            skills is crucial. Take courses, attend workshops, and stay updated with industry
-            trends.
+            <strong>{t("careerassistant.h4")}</strong> {t("careerassistant.p4")}
             <br />
             <br />
-            <strong>Build Expertise:</strong> Work on becoming an expert in a specific area that
-            aligns with your passions. The more specialized your knowledge, the more valuable you
-            become in that field.
+            <strong>{t("careerassistant.h5")}</strong> {t("careerassistant.p5")}
             <br />
             <br />
             <div className="mt-8 space-y-3">
               <div className="flex items-center text-green-600">
                 <CheckCircle className="mr-3" size={24} />
-                <span className="text-xl">Gain Relevant Experience</span>
+                <span className="text-xl">{t("careerassistant.h6")}</span>
               </div>
             </div>
             <br />
-            <strong>Start with Internships or Entry-Level Positions:</strong> These help you learn
-            the ropes and gain exposure to real-world scenarios. Even if the role doesn’t seem
-            perfect, it provides valuable experience.
+            <strong>{t("careerassistant.h7")}</strong> {t("careerassistant.p7")}
             <br />
             <br />
-            <strong>Volunteer:</strong> Volunteering can give you hands-on experience, especially in
-            fields like HR or community engagement.
+            <strong>{t("careerassistant.h8")}</strong> {t("careerassistant.p8")}
             <br />
             <br />
             <div className="mt-8 space-y-3">
               <div className="flex items-center text-green-600">
                 <CheckCircle className="mr-3" size={24} />
-                <span className="text-xl">Network and Build Relationships</span>
+                <span className="text-xl">{t("careerassistant.h9")}</span>
               </div>
             </div>
             <br />
-            <strong>Connect with Industry Professionals:</strong> Attend events, join online
-            communities, and engage on platforms like LinkedIn to meet people in your field.
+            <strong>{t("careerassistant.h10")}</strong> {t("careerassistant.p10")}
             <br />
             <br />
-            <strong>Seek Mentorship:</strong> Find mentors who can offer guidance, share their
-            experiences, and help you navigate the challenges of your chosen career path.
+            <strong>{t("careerassistant.h11")}</strong> {t("careerassistant.p11")}
             <br />
             <br />
-            <strong>Develop a Personal Brand:</strong> Establish a presence in your field by writing
-            articles, speaking at events, or sharing your work online.
+            <strong>{t("careerassistant.h12")}</strong> {t("careerassistant.p12")}
           </p>
           <br />
           <br />
@@ -86,50 +74,48 @@ const CareerAssistant = () => {
             <div className="mt-8 space-y-3">
               <div className="flex items-center text-green-600">
                 <CheckCircle className="mr-3" size={24} />
-                <span className="text-xl">Find the Right Career Fit</span>
+                <span className="text-xl">{t("careerassistant.h13")}</span>
               </div>
             </div>
             <br />
-            <strong>Research Careers Thoroughly:</strong> Read about different careers, talk to
-            people working in those fields, and consider what aligns with your values and skills.
+            <strong>{t("careerassistant.h14")}</strong>
+            {t("careerassistant.h14")}
             <br />
             <br />
-            <strong>Test the Waters:</strong> Don’t be afraid to try out different roles or
-            industries. The more you experience, the more you’ll learn about what excites and suits
-            you.
+            <strong>{t("careerassistant.h15")}</strong> {t("careerassistant.p15")}
+            
             <br />
             <br />
-            <strong>Work-Life Balance:</strong> Consider the lifestyle you want. Some careers may
-            require more flexibility or long hours. Find a balance that supports your personal life
-            and growth.
+            <strong>{t("careerassistant.h16")}</strong> {t("careerassistant.p16")}
+           
             <br />
             <br />
             <div className="mt-8 space-y-3">
               <div className="flex items-center text-green-600">
                 <CheckCircle className="mr-3" size={24} />
-                <span className="text-xl">Adapt and Stay Open to Change</span>
+                <span className="text-xl">
+                  {t("careerassistant.h17")}
+                </span>
               </div>
             </div>
             <br />
-            <strong>Be Open to New Opportunities:</strong> Sometimes the right career path isn't
-            linear. Stay open to opportunities that align with your values.
+            <strong>{t("careerassistant.h18")}</strong>
+            {t("careerassistant.p18")} 
             <br />
             <br />
-            <strong>Embrace Failure as Learning:</strong> Setbacks are natural. What matters is how
-            you respond and what you learn from the experience.
+            <strong>{t("careerassistant.h19")}</strong>
+            {t("careerassistant.p19")}
             <br />
             <br />
             <div className="mt-8 space-y-3">
               <div className="flex items-center text-green-600">
                 <CheckCircle className="mr-3" size={24} />
-                <span className="text-xl">Focus on Well-Being</span>
+                <span className="text-xl">{t("careerassistant.h20")}</span>
               </div>
             </div>
             <br />
             <br />
-            <strong>Prioritize Mental and Physical Health:</strong> A fulfilling career goes hand in
-            hand with a healthy lifestyle. Regular exercise, mindfulness, and time for yourself will
-            improve your performance and happiness.
+            <strong>{t("careerassistant.h21")}</strong> {t("careerassistant.p21")}
           </p>
         </div>
       </div>

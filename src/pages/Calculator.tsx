@@ -5,6 +5,8 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Calco from "@/assets/calculator.svg";
+import { useTranslation } from "react-i18next";
+
 const MIN_SOCIAL_INCOME = 933;
 const MAX_SOCIAL_INCOME = 3750;
 
@@ -19,6 +21,7 @@ interface SalaryResults {
 }
 
 export const Calculator: React.FC = () => {
+  const { t } = useTranslation();
   const [calculatorType, setCalculatorType] = useState<"employment" | "civil">("employment");
   const [grossSalary, setGrossSalary] = useState<string>("");
   const [isStudent, setIsStudent] = useState<string>("no");
@@ -64,12 +67,11 @@ export const Calculator: React.FC = () => {
     return taxableIncome * taxRate;
   };
 
-  // Основна функция за изчисление на нетната заплата
   const calculateSalary = () => {
     const salary = parseFloat(grossSalary);
 
     if (isNaN(salary) || salary <= 0) {
-      alert("Моля, въведете валидна брутна заплата");
+      alert(t("calculator.enterValidGrossSalary"));
       return;
     }
 
@@ -106,12 +108,12 @@ export const Calculator: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 ">
+    <div className="container mx-auto p-4">
       <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-16">
         <div className="flex-1 md:text-left">
           <Card>
             <CardHeader>
-              <CardTitle className="text-center">Salary calculator</CardTitle>
+              <CardTitle className="text-center">{t("calculator.title")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -122,107 +124,102 @@ export const Calculator: React.FC = () => {
                 >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="employment" id="employment" />
-                    <Label htmlFor="employment">Employment contract</Label>
+                    <Label htmlFor="employment">{t("calculator.employmentContract")}</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="civil" id="civil" />
-                    <Label htmlFor="civil">Civil contract</Label>
+                    <Label htmlFor="civil">{t("calculator.civilContract")}</Label>
                   </div>
                 </RadioGroup>
 
-                {/* Въвеждане на брутна заплата */}
+                {/* Gross salary input */}
                 <div className="space-y-2">
-                  <Label>Gross salary (BGN)</Label>
+                  <Label>{t("calculator.grossSalary")}</Label>
                   <Input
                     type="number"
                     value={grossSalary}
                     onChange={(e) => setGrossSalary(e.target.value)}
-                    placeholder="Enter gross salary"
+                    placeholder={t("calculator.enterGrossSalary")}
                   />
                   <p className="text-sm text-gray-500">
-                    Minimum insured income: {MIN_SOCIAL_INCOME} BGN
+                    {t("calculator.minInsuredIncome")}
                     <br />
-                    Maximalen insured income: {MAX_SOCIAL_INCOME} BGN
+                    {t("calculator.maxInsuredIncome")}
                   </p>
                 </div>
 
                 {calculatorType === "employment" && (
                   <div className="space-y-4">
                     <div>
-                      <Label>Are you a student or a full-time student under 26 years old?</Label>
+                      <Label>{t("calculator.studentQuestion")}</Label>
                       <RadioGroup
                         value={isStudent}
                         onValueChange={(value: string) => setIsStudent(value)}
                       >
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="yes" id="student-yes" />
-                          <Label htmlFor="student-yes">Yes</Label>
+                          <Label htmlFor="student-yes">{t("general.yes")}</Label>
                         </div>
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="no" id="student-no" />
-                          <Label htmlFor="student-no">No</Label>
+                          <Label htmlFor="student-no">{t("general.no")}</Label>
                         </div>
                       </RadioGroup>
                     </div>
 
                     <div>
-                      <Label>Are you insured at another workplace?</Label>
+                      <Label>{t("calculator.insuredElsewhere")}</Label>
                       <RadioGroup
                         value={isInsuredElsewhere}
                         onValueChange={(value: string) => setIsInsuredElsewhere(value)}
                       >
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="yes" id="insured-yes" />
-                          <Label htmlFor="insured-yes">Yes</Label>
+                          <Label htmlFor="insured-yes">{t("general.yes")}</Label>
                         </div>
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="no" id="insured-no" />
-                          <Label htmlFor="insured-no">No</Label>
+                          <Label htmlFor="insured-no">{t("general.no")}</Label>
                         </div>
                       </RadioGroup>
                     </div>
                   </div>
                 )}
 
-                {/* Бутон за изчисление */}
                 <Button onClick={calculateSalary} className="w-full">
-                  Calculate
+                  {t("calculator.calculateButton")}
                 </Button>
 
                 {results && (
                   <div className="bg-gray-100 p-4 rounded-lg space-y-2">
-                    <h3 className="font-bold text-center">Results</h3>
+                    <h3 className="font-bold text-center">{t("calculator.results")}</h3>
                     <div className="grid grid-cols-2 gap-2">
-                      <span>Gross salary:</span>
+                      <span>{t("calculator.grossSalaryLabel")}</span>
                       <span className="text-right">{results.grossSalary} BGN</span>
-                      <span>Pension contributions:</span>
+                      <span>{t("calculator.pensionContributions")}</span>
                       <span className="text-right">{results.pensionContribution} BGN</span>
-                      <span>Health contributions:</span>
+                      <span>{t("calculator.healthContributions")}</span>
                       <span className="text-right">{results.healthContribution} BGN</span>
-                      <span>Additional insurance:</span>
-                      <span className="text-right">
-                        {results.additionalPensionContribution} BGN
-                      </span>
-                      <span>Total insurance:</span>
+                      <span>{t("calculator.additionalInsurance")}</span>
+                      <span className="text-right">{results.additionalPensionContribution} BGN</span>
+                      <span>{t("calculator.totalInsurance")}</span>
                       <span className="text-right">{results.totalSocialSecurity} BGN</span>
-                      <span>Income tax:</span>
+                      <span>{t("calculator.incomeTax")}</span>
                       <span className="text-right">{results.incomeTax} BGN</span>
                       <hr className="col-span-2 border-t" />
-                      <span className="font-bold">Net salary:</span>
+                      <span className="font-bold">{t("calculator.netSalaryLabel")}</span>
                       <span className="text-right font-bold">{results.netSalary} BGN</span>
                     </div>
                   </div>
                 )}
 
-                <p className="text-xs text-gray-500 mt-4">
-                  The results are for informational purposes only.
-                </p>
+                <p className="text-xs text-gray-500 mt-4">{t("calculator.disclaimer")}</p>
               </div>
             </CardContent>
           </Card>
         </div>
         <div className="flex-1">
-          <img src={Calco} alt="Partners" className="w-full h-auto" />
+          <img src={Calco} alt="Calculator" className="w-full h-auto" />
         </div>
       </div>
     </div>
