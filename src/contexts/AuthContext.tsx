@@ -16,6 +16,10 @@ export interface User {
   phoneNumber?: string;
   createdAt: string;
   companyCoordinates?: string;
+  subscriptionStatus?: string; // Add this line
+  stripeCustomerId?: string; // You might want to add this too
+  subscriptionId?: string; // And this
+  subscriptionEndDate?: Date; // And this
 }
 
 interface AuthContextType {

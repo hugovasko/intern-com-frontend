@@ -274,6 +274,7 @@ export function AuthPage() {
               variant="outline"
               className="w-full"
               onClick={() => console.log("Github Sign In")}
+              disabled
             >
               <Github className="mr-2 h-4 w-4" />
               Continue with Github (Coming Soon)

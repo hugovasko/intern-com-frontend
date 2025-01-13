@@ -42,6 +42,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { SubscriptionBanner } from "@/components/SubscriptionBanner";
 
 interface Application {
   id: number;
@@ -74,6 +75,7 @@ const ApplicationsPage: FC = () => {
   const [editingApplication, setEditingApplication] = useState<Application | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [updatingStatus, setUpdatingStatus] = useState(false);
+  const [hasActiveSubscription, setHasActiveSubscription] = useState<boolean>(true);
 
   useEffect(() => {
     fetchApplications();
@@ -96,7 +98,13 @@ const ApplicationsPage: FC = () => {
         (a: Application, b: Application) => a.id - b.id
       );
       setApplications(sortedApplications);
-    } catch (error) {
+    } catch (error: any) {
+      if (
+        error.response?.status === 403 &&
+        error.response?.data?.message?.includes("subscription")
+      ) {
+        setHasActiveSubscription(false);
+      }
       console.error("Failed to fetch applications:", error);
       toast({
         title: "Error",
@@ -213,6 +221,21 @@ const ApplicationsPage: FC = () => {
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
               <p className="mt-2 text-sm text-muted-foreground">Loading applications...</p>
             </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (user?.role === "partner" && !hasActiveSubscription) {
+    return (
+      <div className="container mx-auto py-8">
+        <Card>
+          <CardHeader>
+            <CardTitle>Received Applications</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <SubscriptionBanner message="You need an active subscription to view applications." />
           </CardContent>
         </Card>
       </div>

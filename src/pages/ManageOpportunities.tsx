@@ -51,6 +51,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useAuth } from "@/contexts/AuthContext";
+import { SubscriptionBanner } from "@/components/SubscriptionBanner";
 
 const OPPORTUNITY_TYPES = [
   { value: "internship", label: "Internship" },
@@ -103,6 +104,7 @@ export function ManageOpportunities() {
   const { toast } = useToast();
   const { user } = useAuth();
   const isAdmin = user?.role === "admin";
+  const [hasActiveSubscription, setHasActiveSubscription] = useState<boolean>(true);
 
   const form = useForm<z.infer<typeof opportunitySchema>>({
     resolver: zodResolver(opportunitySchema),
@@ -157,7 +159,13 @@ export function ManageOpportunities() {
         (a: Opportunity, b: Opportunity) => a.id - b.id
       );
       setOpportunities(sortedOpportunities);
-    } catch (error) {
+    } catch (error: any) {
+      if (
+        error.response?.status === 403 &&
+        error.response?.data?.message?.includes("subscription")
+      ) {
+        setHasActiveSubscription(false);
+      }
       toast({
         title: "Error",
         description: "Failed to fetch opportunities",
@@ -216,6 +224,17 @@ export function ManageOpportunities() {
       });
     }
   };
+
+  if (!hasActiveSubscription && !isAdmin) {
+    return (
+      <div className="container mx-auto py-8">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold">Manage Opportunities</h1>
+        </div>
+        <SubscriptionBanner message="You need an active subscription to manage opportunities." />
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto py-8">

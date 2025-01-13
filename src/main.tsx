@@ -27,6 +27,8 @@ import PrivacyPolicy from "./pages/Privacy.tsx";
 import MapPage from "./pages/MapPage.tsx";
 import ApplicationsPage from "./pages/ApplicationsPage.tsx";
 import "./i18n/i18n.ts";
+import { SubscriptionPage } from "./pages/SubscriptionPage.tsx";
+import { SubscriptionSuccessPage } from "./pages/SubscriptionSuccessPage.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -75,6 +77,22 @@ const router = createBrowserRouter(
         element={
           <ProtectedRoute roles={["partner", "admin"]}>
             <ManageOpportunities />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/subscription"
+        element={
+          <ProtectedRoute roles={["partner"]}>
+            <SubscriptionPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/subscription/success"
+        element={
+          <ProtectedRoute roles={["partner"]}>
+            <SubscriptionSuccessPage />
           </ProtectedRoute>
         }
       />
