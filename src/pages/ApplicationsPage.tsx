@@ -54,6 +54,7 @@ interface Application {
     firstName: string;
     lastName: string;
     email: string;
+    cvFileName: string | null;
   };
   opportunity: {
     id: number;
@@ -174,6 +175,35 @@ const ApplicationsPage: FC = () => {
     }
   };
 
+  const handleViewCV = async (userId: number) => {
+    if (!userId) return;
+
+    try {
+      const response = await api.get(`/users/${userId}/cv`);
+      const { cv, cvMimeType } = response.data; // Changed cv to file
+
+      // Create a blob from the base64 data
+      const byteCharacters = atob(cv);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: cvMimeType });
+
+      // Create and open blob URL
+      const fileURL = URL.createObjectURL(blob);
+      window.open(fileURL, "_blank");
+    } catch (error) {
+      console.error("Failed to view CV:", error);
+      toast({
+        title: "Error",
+        description: "Failed to view CV",
+        variant: "destructive",
+      });
+    }
+  };
+
   if (loading) {
     return (
       <div className="container mx-auto py-8">
@@ -259,6 +289,7 @@ const ApplicationsPage: FC = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead>Candidate</TableHead>
+                  <TableHead>CV</TableHead>
                   <TableHead>Position</TableHead>
                   <TableHead>Applied On</TableHead>
                   <TableHead>Status</TableHead>
@@ -277,6 +308,20 @@ const ApplicationsPage: FC = () => {
                           {application.candidate.email}
                         </p>
                       </div>
+                    </TableCell>
+                    <TableCell>
+                      {application.candidate.cvFileName ? (
+                        <Button
+                          className="w-24"
+                          onClick={() => handleViewCV(application.candidate.id)}
+                        >
+                          View CV
+                        </Button>
+                      ) : (
+                        <Button variant="secondary" className="w-24">
+                          No CV
+                        </Button>
+                      )}
                     </TableCell>
                     <TableCell>{application.opportunity.title}</TableCell>
                     <TableCell>{formatDate(application.createdAt)}</TableCell>
@@ -387,6 +432,7 @@ const ApplicationsPage: FC = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead>Candidate</TableHead>
+                  <TableHead>CV</TableHead>
                   <TableHead>Position</TableHead>
                   <TableHead>Company</TableHead>
                   <TableHead>Applied On</TableHead>
@@ -406,6 +452,20 @@ const ApplicationsPage: FC = () => {
                           {application.candidate.email}
                         </p>
                       </div>
+                    </TableCell>
+                    <TableCell>
+                      {application.candidate.cvFileName ? (
+                        <Button
+                          className="w-24"
+                          onClick={() => handleViewCV(application.candidate.id)}
+                        >
+                          View CV
+                        </Button>
+                      ) : (
+                        <Button variant="secondary" className="w-24">
+                          No CV
+                        </Button>
+                      )}
                     </TableCell>
                     <TableCell>{application.opportunity.title}</TableCell>
                     <TableCell>{application.opportunity.company.companyName}</TableCell>
