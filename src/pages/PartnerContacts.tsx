@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import candidatePartner from "@/assets/cont.svg";
+import { useTranslation } from "react-i18next";
+
 interface PartnerContacts {
   firstName: string;
   lastName: string;
@@ -16,6 +18,7 @@ interface PartnerContacts {
 }
 
 const PartnerContacts: React.FC = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState<PartnerContacts>({
     firstName: "",
     lastName: "",
@@ -52,20 +55,17 @@ const PartnerContacts: React.FC = () => {
   };
 
   return (
-    <section className="w-screen -mx-[50vw] left-[50%] relative p-8">
+    <section className="relative p-8">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16 w-full">
-          <h1 className="text-4xl font-bold text-gray-800 mb-6">Partner Contacts</h1>
+          <h1 className="text-4xl font-bold text-primary mb-6">{t("partnerContacts.title")}</h1>
           <div className="flex flex-col md:flex-row justify-between p-2 gap-8">
             <div className="flex-1">
-              <h2 className="text-2xl  text-left font-bold mb-8 text-gray-800">
-                Connect with Us and Let’s Collaborate!
+              <h2 className="text-2xl text-left font-bold mb-8 text-primary">
+                {t("partnerContacts.header")}
               </h2>
-              <p className="max-w-2xl mx-auto text-xl text-left font-semibold text-gray-600 mb-8">
-                Have questions or need guidance? Whether you’re curious about partnership
-                opportunities or looking for ways we can support your goals, we’re here to help.
-                Reach out to us today—we’re excited to answer your questions, provide assistance,
-                and work together to create meaningful connections and opportunities!
+              <p className="max-w-2xl mx-auto text-xl text-left font-semibold ">
+                {t("partnerContacts.description")}
               </p>
               <img
                 src={candidatePartner}
@@ -74,14 +74,14 @@ const PartnerContacts: React.FC = () => {
               />
             </div>
             <div className="flex-1 md:text-left">
-              <h2 className="text-2xl font-bold mb-8 text-gray-800">Contact Us</h2>
-              <div className="space-y-4 text-left text-black-600 mb-8"></div>
-
+              <h2 className="text-2xl font-bold mb-8 text-primary">
+                {t("partnerContacts.contactUs")}
+              </h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="firstName" className="block text-left mb-2">
-                      First Name
+                      {t("partnerContacts.firstName")}
                     </Label>
                     <Input
                       type="text"
@@ -89,14 +89,14 @@ const PartnerContacts: React.FC = () => {
                       name="firstName"
                       value={formData.firstName}
                       onChange={handleChange}
-                      placeholder="Enter first name"
+                      placeholder={t("partnerContacts.firstName")}
                       required
                       className="bg-white"
                     />
                   </div>
                   <div>
                     <Label htmlFor="lastName" className="block text-left mb-2">
-                      Last Name
+                      {t("partnerContacts.lastName")}
                     </Label>
                     <Input
                       type="text"
@@ -104,16 +104,15 @@ const PartnerContacts: React.FC = () => {
                       name="lastName"
                       value={formData.lastName}
                       onChange={handleChange}
-                      placeholder="Enter last name"
+                      placeholder={t("partnerContacts.lastName")}
                       required
                       className="bg-white"
                     />
                   </div>
                 </div>
-
                 <div>
                   <Label htmlFor="organizationName" className="block text-left mb-2">
-                    Organization Name
+                    {t("partnerContacts.organizationName")}
                   </Label>
                   <Input
                     type="text"
@@ -121,15 +120,14 @@ const PartnerContacts: React.FC = () => {
                     name="organizationName"
                     value={formData.organizationName}
                     onChange={handleChange}
-                    placeholder="Enter organization name"
+                    placeholder={t("partnerContacts.organizationName")}
                     required
                     className="bg-white"
                   />
                 </div>
-
                 <div>
                   <Label htmlFor="position" className="block text-left mb-2">
-                    Position
+                    {t("partnerContacts.position")}
                   </Label>
                   <Input
                     type="text"
@@ -137,15 +135,14 @@ const PartnerContacts: React.FC = () => {
                     name="position"
                     value={formData.position}
                     onChange={handleChange}
-                    placeholder="Enter your position"
+                    placeholder={t("partnerContacts.position")}
                     required
                     className="bg-white"
                   />
                 </div>
-
                 <div>
                   <Label htmlFor="phoneNumber" className="block text-left mb-2">
-                    Phone Number
+                    {t("partnerContacts.phoneNumber")}
                   </Label>
                   <Input
                     type="tel"
@@ -153,14 +150,13 @@ const PartnerContacts: React.FC = () => {
                     name="phoneNumber"
                     value={formData.phoneNumber}
                     onChange={handleChange}
-                    placeholder="Enter phone number"
+                    placeholder={t("partnerContacts.phoneNumber")}
                     className="bg-white"
                   />
                 </div>
-
                 <div>
                   <Label htmlFor="email" className="block text-left mb-2">
-                    Email *
+                    {t("partnerContacts.email")} *
                   </Label>
                   <Input
                     type="email"
@@ -168,15 +164,14 @@ const PartnerContacts: React.FC = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="Enter email address"
+                    placeholder={t("partnerContacts.email")}
                     required
                     className="bg-white"
                   />
                 </div>
-
                 <div>
                   <Label htmlFor="subject" className="block text-left mb-2">
-                    Subject of Your Inquiry *
+                    {t("partnerContacts.subject")} *
                   </Label>
                   <Input
                     type="text"
@@ -184,30 +179,28 @@ const PartnerContacts: React.FC = () => {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    placeholder="Enter the subject of your inquiry"
+                    placeholder={t("partnerContacts.subject")}
                     required
                     className="bg-white"
                   />
                 </div>
-
                 <div>
                   <Label htmlFor="message" className="block text-left mb-2">
-                    Message *
+                    {t("partnerContacts.message")} *
                   </Label>
                   <Textarea
                     id="message"
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    placeholder="Share the details of your inquiry"
+                    placeholder={t("partnerContacts.messagePlaceholder")}
                     required
                     className="resize-y bg-white"
                   />
                 </div>
-
                 <div className="flex justify-start">
                   <Button type="submit" className="w-full bg-green-600 hover:bg-green-700">
-                    Submit
+                    {t("partnerContacts.submit")}
                   </Button>
                 </div>
               </form>
@@ -220,5 +213,3 @@ const PartnerContacts: React.FC = () => {
 };
 
 export { PartnerContacts };
-
-
