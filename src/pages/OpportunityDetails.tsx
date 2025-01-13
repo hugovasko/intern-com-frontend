@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom"; 
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -8,6 +8,7 @@ import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 
 interface Opportunity {
   id: number;
@@ -25,6 +26,7 @@ interface Opportunity {
 }
 
 export function OpportunityDetails() {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const [opportunity, setOpportunity] = useState<Opportunity | null>(null);
   const [loading, setLoading] = useState(true);
@@ -84,17 +86,17 @@ export function OpportunityDetails() {
       setHasApplied(true);
 
       toast({
-        title: "Success",
-        description: "Successfully applied for this opportunity!",
+        title: t("opportunityDetails.success"),
+        description: t("opportunityDetails.successDescription"),
       });
     } catch (error: any) {
       console.error("Failed to apply for this opportunity: ", error);
 
       toast({
-        title: "Error",
+        title: t("opportunityDetails.error"),
         description:
           error.response?.data?.message ||
-          "Failed to apply for this opportunity. Please try again later.",
+          t("opportunityDetails.errorMessage"),
         variant: "destructive",
       });
     } finally {
@@ -169,13 +171,13 @@ export function OpportunityDetails() {
     <div className="container mx-auto py-8">
       <div className="max-w-3xl mx-auto p-3 sm:p-0">
         <Button onClick={() => navigate(-1)} variant="outline" className="mb-5">
-          Back
+          {t("opportunityDetails.back")}
         </Button>
         <div className="mb-6 space-y-4">
           <h1 className="text-3xl font-bold tracking-tight">{opportunity.title}</h1>
           <div className="flex flex-wrap gap-2">
             <Badge variant="default" className="text-sm">
-              {opportunity.type === "full-time" ? "Full-Time" : "Internship"}
+              {opportunity.type === "full-time" ? t("opportunityDetails.fullTime") : t("opportunityDetails.internship")}
             </Badge>
             {opportunity?.salary ? (
               <Badge variant="default" className="text-sm">
@@ -196,16 +198,16 @@ export function OpportunityDetails() {
                 {user?.role === "candidate" &&
                   (hasApplied ? (
                     <Button variant="secondary" disabled>
-                      Already Applied
+                      {t("opportunityDetails.alreadyApplied")}
                     </Button>
                   ) : (
                     <Button onClick={handleApplyClick} disabled={applicationLoading}>
-                      {applicationLoading ? "Applying..." : "Apply"}
+                      {applicationLoading ? t("opportunityDetails.applying") : t("opportunityDetails.apply")}
                     </Button>
                   ))}
                 {!user && (
                   <Button variant="secondary" onClick={() => navigate("/auth/login")}>
-                    Login to apply
+                    {t("opportunityDetails.login")}
                   </Button>
                 )}
               </div>
@@ -217,7 +219,7 @@ export function OpportunityDetails() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Briefcase className="h-4 w-4" />
-                  <span>{opportunity.type === "full-time" ? "Full-Time" : "Internship"}</span>
+                  <span>{opportunity.type === "full-time" ? t("opportunityDetails.fullTime") : t("opportunityDetails.internship")}</span>
                 </div>
                 {opportunity?.salary ? (
                   <div className="flex items-center gap-2">
@@ -227,7 +229,7 @@ export function OpportunityDetails() {
                 ) : null}
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4" />
-                  <span>Posted on {formatDate(opportunity.createdAt)}</span>
+                  <span>{t("opportunityDetails.postedOn")} {formatDate(opportunity.createdAt)}</span>
                 </div>
               </div>
             </div>
@@ -235,7 +237,7 @@ export function OpportunityDetails() {
 
           <CardContent>
             <div className="prose max-w-none">
-              <h2 className="text-xl font-semibold mb-4">Description</h2>
+              <h2 className="text-xl font-semibold mb-4">{t("opportunityDetails.descriptionTitle")}</h2>
               <div className="whitespace-pre-wrap">{opportunity.description}</div>
             </div>
           </CardContent>

@@ -58,7 +58,7 @@ export const translationEN = {
     subtext2: "Use our salary calculator to estimate your potential earnings.",
     subtext3: "Join our community to connect, collaborate, and grow.",
   },
-  
+
   us: {
     title: "About Intern.com",
     description:
@@ -211,6 +211,202 @@ export const translationEN = {
   general: {
     yes: "Yes",
     no: "No",
+  },
+
+  profile: {
+    cancel: "Cancel",
+    profile: "Profile",
+    save: " Save Changes",
+    edit: "Edit Profile",
+    company: "Company Name",
+    first: "First Name",
+    last: "Last Name",
+    email: "Email",
+    cv: "CV Document",
+    preview: " Preview",
+    upload: "Upload",
+    view: "View CV",
+    replace: "Replace CV",
+    remove: "Remove CV",
+    upload1: "Upload CV",
+    phone: "Phone Number",
+    coordinates: "Coordinates",
+    password: "Password",
+    register: " Register as Partner Instead",
+    con: "Or continue with",
+    continue: "Continue with Github (Coming Soon)",
+    google: "Continue with Google (Coming Soon)",
+    welcome: "Welcome back",
+    account: "Account created!",
+  },
+
+  privacyPolicy: {
+    title: "Privacy Policy",
+    welcome:
+      "Welcome to Intern.com. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website. Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.",
+    informationTitle: "Information We Collect",
+    informationContent:
+      "We may collect information about you in a variety of ways. The information we may collect via the website includes:",
+    personalData: "Personal Data: Name, email address, and similar contact details.",
+    usageData: "Usage Data: Details about how you use our website.",
+    howUseTitle: "How We Use Your Information",
+    howUseContent: "We use your information to:",
+    usePoint1: "Provide, operate, and maintain our website.",
+    usePoint2: "Communicate with you, including customer service.",
+    usePoint3: "Improve user experience and website performance.",
+    sharingTitle: "Sharing Your Information",
+    sharingContent:
+      "We do not sell or share your personal information with third parties except as necessary to provide the services you requested.",
+    rightsTitle: "Your Rights",
+    rightsContent:
+      "You have the right to access, update, or delete your personal information. If you wish to exercise these rights, please contact us at support@intern.com.",
+    contactTitle: "Contact Us",
+    contactContent: "If you have any questions about this Privacy Policy, please contact us at:",
+    contactEmail: "support@intern.com",
+  },
+
+  opportunityDetails: {
+    back: "Back",
+    apply: "Apply",
+    applying: "Applying...",
+    alreadyApplied: "Already Applied",
+    login: "Login to apply",
+    descriptionTitle: "Description",
+    postedOn: "Posted on",
+    salary: "Salary",
+    fullTime: "Full-Time",
+    internship: "Internship",
+    location: "Location",
+    company: "Company",
+    error: "Failed to load opportunity details. Please try again later.",
+    success: "Successfully applied for this opportunity!",
+    errorMessage: "Failed to apply for this opportunity. Please try again later.",
+  },
+
+  adminPanel: {
+    userManagement: "User Management",
+
+    searchPlaceholder: "Search users...",
+    name: "Name",
+    email: "Email",
+    role: "Role",
+    company: "Company",
+    phone: "Phone",
+    joined: "Joined",
+    actions: "Actions",
+    candidate: "Candidate",
+    partner: "Partner",
+    admin: "Admin",
+    delete: "Delete",
+    confirmDeleteTitle: "Are you sure?",
+    confirmDeleteDescription: "This action cannot be undone. The user will be permanently deleted.",
+    cancel: "Cancel",
+    error: "Error",
+    fetchError: "Failed to fetch users",
+    roleUpdated: "User role updated successfully",
+    roleUpdateError: "Failed to update user role",
+    userDeleted: "User deleted successfully",
+    userDeleteError: "Failed to delete user",
+    success: "Success",
+  },
+
+  applicationsPage: {
+    title: {
+      candidate: "My Applications",
+      partner: "Received Applications",
+      admin: "All Applications",
+      details: "Application Details",
+    },
+
+    noApplications: "No applications found.",
+    loadingapplications: "Loading applications...",
+    tableHeaders: {
+      position: "Position",
+      company: "Company",
+      appliedOn: "Applied On",
+      status: "Status",
+      actions: "Actions",
+      candidate: "Candidate",
+      cv: "CV",
+    },
+
+    messages: {
+      cMessage: "Candidate Message",
+      yourMessage: "Your Message",
+      noMessageProvided: "No message provided",
+      companyNote: "Company Note",
+      manageApplication: "Manage Application",
+      updateStatus: "Update Status",
+      addNote: "Add Note",
+      currentNote: "Current Note",
+      updating: "Updating...",
+      update: "Update",
+      noCV: "No CV",
+      viewCV: "View CV",
+      deleteConfirmation: {
+        title: "Are you absolutely sure?",
+        description: "This action cannot be undone. This will permanently delete the application.",
+      },
+    },
+
+    actions: {
+      viewDetails: "View Details",
+      manage: "Manage",
+      delete: "Delete",
+      cancel: "Cancel",
+      confirmDelete: "Delete",
+    },
+
+    statusOptions: {
+      pending: "Pending",
+      accepted: "Accept",
+      rejected: "Reject",
+    },
+  },
+
+  opportunitiesPage: {
+    filters: {
+      typePlaceholder: "Job Type",
+      locationPlaceholder: "Location",
+      companyPlaceholder: "Company",
+      salaryPlaceholder: "Minimum Salary",
+      type: {
+        all: "All Opportunities",
+        internship: "Internships",
+        fullTime: "Full-Time",
+      },
+      location: {
+        all: "All Locations",
+      },
+      company: {
+        all: "All Companies",
+      },
+      salary: {
+        all: "Any Salary",
+        "500": "500+ BGN",
+        "1000": "1000+ BGN",
+        "2000": "2000+ BGN",
+      },
+    },
+
+    h: {
+      title: "Available Opportunities",
+      subtitle: " opportunities found",
+    },
+    filtersInfo: {
+      title: "Filters",
+      description: "Refine your search with filters",
+      noMatches: {
+        title: "No matches found",
+        description: "Try adjusting your filters to find more opportunities",
+      },
+    },
+
+    loading: {
+      title: "Loading opportunities...",
+      description: "Please wait while we fetch the latest opportunities.",
+    },
+    clearFilters: "Clear All Filters",
   },
 
   languageSelector: {

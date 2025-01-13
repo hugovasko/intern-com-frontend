@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "react-i18next";
 import {
   Select,
   SelectContent,
@@ -46,6 +47,7 @@ interface Filters {
 }
 
 export function Opportunities() {
+  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   const [filteredOpportunities, setFilteredOpportunities] = useState<Opportunity[]>([]);
@@ -170,76 +172,68 @@ export function Opportunities() {
 
   const FilterSection = () => (
     <>
-      <div className="space-y-4">
-        <Select onValueChange={(value) => handleFilterChange("type", value)} value={filters.type}>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Job Type" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Opportunities</SelectItem>
-            <SelectItem value="internship">Internships</SelectItem>
-            <SelectItem value="full-time">Full-Time</SelectItem>
-          </SelectContent>
-        </Select>
+       <div className="space-y-4">
+      <Select onValueChange={(value) => handleFilterChange("type", value)} value={filters.type}>
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder={t("opportunitiesPage.filters.typePlaceholder")} />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">{t("opportunitiesPage.filters.type.all")}</SelectItem>
+          <SelectItem value="internship">{t("opportunitiesPage.filters.type.internship")}</SelectItem>
+          <SelectItem value="full-time">{t("opportunitiesPage.filters.type.fullTime")}</SelectItem>
+        </SelectContent>
+      </Select>
 
-        <Select
-          onValueChange={(value) => handleFilterChange("location", value)}
-          value={filters.location}
-        >
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Location" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Locations</SelectItem>
-            {uniqueLocations.map((location) => (
-              <SelectItem key={location} value={location}>
-                {location}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+      <Select onValueChange={(value) => handleFilterChange("location", value)} value={filters.location}>
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder={t("opportunitiesPage.filters.locationPlaceholder")} />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">{t("opportunitiesPage.filters.location.all")}</SelectItem>
+          {uniqueLocations.map((location) => (
+            <SelectItem key={location} value={location}>
+              {location}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
 
-        <Select
-          onValueChange={(value) => handleFilterChange("company", value)}
-          value={filters.company}
-        >
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Company" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Companies</SelectItem>
-            {uniqueCompanies.map((company) => (
-              <SelectItem key={company} value={company}>
-                {company}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+      <Select onValueChange={(value) => handleFilterChange("company", value)} value={filters.company}>
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder={t("opportunitiesPage.filters.companyPlaceholder")} />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">{t("opportunitiesPage.filters.company.all")}</SelectItem>
+          {uniqueCompanies.map((company) => (
+            <SelectItem key={company} value={company}>
+              {company}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
 
-        <Select
-          onValueChange={(value) => handleFilterChange("salary", value)}
-          value={filters.salary.toString()}
-        >
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Minimum Salary" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Any Salary</SelectItem>
-            <SelectItem value="500">500+ BGN</SelectItem>
-            <SelectItem value="1000">1000+ BGN</SelectItem>
-            <SelectItem value="2000">2000+ BGN</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+      <Select onValueChange={(value) => handleFilterChange("salary", value)} value={filters.salary.toString()}>
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder={t("opportunitiesPage.filters.salaryPlaceholder")} />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">{t("opportunitiesPage.filters.salary.all")}</SelectItem>
+          <SelectItem value="500">{t("opportunitiesPage.filters.salary.500")}</SelectItem>
+          <SelectItem value="1000">{t("opportunitiesPage.filters.salary.1000")}</SelectItem>
+          <SelectItem value="2000">{t("opportunitiesPage.filters.salary.2000")}</SelectItem>
+        </SelectContent>
+      </Select>
 
       {getActiveFiltersCount() > 0 && (
         <div className="mt-4">
           <Button variant="outline" className="w-full" onClick={clearFilters}>
             <FilterX className="mr-2 h-4 w-4" />
-            Clear All Filters
+            {t("opportunitiesPage.clearFilters")}
           </Button>
         </div>
       )}
+    </div>
+      
     </>
   );
 
@@ -248,9 +242,9 @@ export function Opportunities() {
       <div className="flex flex-col space-y-6 p-3 sm:p-0">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold">Available Opportunities</h1>
+            <h1 className="text-3xl font-bold">   {t("opportunitiesPage.h.title")}</h1>
             <p className="text-muted-foreground mt-1">
-              {filteredOpportunities.length} opportunities found
+              {filteredOpportunities.length} {t("opportunitiesPage.h.subtitle")}
             </p>
           </div>
 
@@ -270,8 +264,8 @@ export function Opportunities() {
               </SheetTrigger>
               <SheetContent className="w-full sm:max-w-lg">
                 <SheetHeader>
-                  <SheetTitle>Filters</SheetTitle>
-                  <SheetDescription>Refine your search with filters</SheetDescription>
+                  <SheetTitle>{t("opportunitiesPage.filtersInfo.title")}</SheetTitle>
+                  <SheetDescription>{t("opportunitiesPage.filtersInfo.description")}</SheetDescription>
                 </SheetHeader>
                 <div className="mt-6">
                   <FilterSection />
@@ -323,8 +317,8 @@ export function Opportunities() {
               <Card className="p-8 text-center">
                 <div className="text-muted-foreground">
                   <FilterX className="mx-auto h-12 w-12 mb-4 text-muted-foreground/50" />
-                  <h3 className="text-lg font-medium mb-2">No matches found</h3>
-                  <p>Try adjusting your filters to find more opportunities</p>
+                  <h3 className="text-lg font-medium mb-2">{t("opportunitiesPage.filtersInfo.noMaches.title")}</h3>
+                  <p>{t("opportunitiesPage.filtersInfo.noMaches.description")}</p>
                 </div>
               </Card>
             ) : (

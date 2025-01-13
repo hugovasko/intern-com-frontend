@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 import {
   Form,
   FormControl,
@@ -66,6 +67,7 @@ const partnerRegisterSchema = z.object({
 });
 
 export function AuthPage() {
+  const { t } = useTranslation();
   const { type = "register" } = useParams();
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(type === "login");
@@ -107,7 +109,7 @@ export function AuthPage() {
       if (isLogin) {
         await login(values.email, values.password);
         toast({
-          title: "Welcome back!",
+          title: t("profile.welcome"),
           description: "You have successfully logged in.",
         });
       } else {
@@ -116,7 +118,7 @@ export function AuthPage() {
           role: isPartnerRegister ? "partner" : "candidate",
         });
         toast({
-          title: "Account created!",
+          title: t("profile.account"),
           description: `You have successfully registered as a ${isPartnerRegister ? "partner" : "candidate"}.`,
         });
       }
@@ -158,7 +160,7 @@ export function AuthPage() {
                   name="firstName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>First Name</FormLabel>
+                      <FormLabel>{t("profile.first")}</FormLabel>
                       <FormControl>
                         <Input placeholder="John" {...field} />
                       </FormControl>
@@ -171,7 +173,7 @@ export function AuthPage() {
                   name="lastName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Last Name</FormLabel>
+                      <FormLabel>{t("profile.last")}</FormLabel>
                       <FormControl>
                         <Input placeholder="Doe" {...field} />
                       </FormControl>
@@ -189,7 +191,7 @@ export function AuthPage() {
                   name="companyName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Company Name</FormLabel>
+                      <FormLabel>{t("profile.company")}</FormLabel>
                       <FormControl>
                         <Input placeholder="Company Inc." {...field} />
                       </FormControl>
@@ -202,7 +204,7 @@ export function AuthPage() {
                   name="phoneNumber"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Phone Number</FormLabel>
+                      <FormLabel>{t("profile.phone")}</FormLabel>
                       <FormControl>
                         <Input placeholder="+1234567890" {...field} />
                       </FormControl>
@@ -218,7 +220,7 @@ export function AuthPage() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>{t("profile.email")}</FormLabel>
                   <FormControl>
                     <Input placeholder="name@example.com" type="email" {...field} />
                   </FormControl>
@@ -232,7 +234,7 @@ export function AuthPage() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>{t("profile.password")}</FormLabel>
                   <FormControl>
                     <Input placeholder="Enter your password" type="password" {...field} />
                   </FormControl>
@@ -254,7 +256,7 @@ export function AuthPage() {
               className="w-full"
               onClick={() => navigate("/auth/partnerRegister")}
             >
-              Register as Partner Instead
+              {t("profile.register")}
             </Button>
           </div>
         )}
@@ -266,7 +268,7 @@ export function AuthPage() {
                 <div className="w-full border-t"></div>
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+                <span className="bg-background px-2 text-muted-foreground"> {t("profile.con")}</span>
               </div>
             </div>
 
@@ -276,7 +278,8 @@ export function AuthPage() {
               onClick={() => console.log("Github Sign In")}
             >
               <Github className="mr-2 h-4 w-4" />
-              Continue with Github (Coming Soon)
+              {t("profile.continue")}
+          
             </Button>
 
             <Button
@@ -312,7 +315,7 @@ export function AuthPage() {
                   fill="#EA4335"
                 />
               </svg>
-              Continue with Google (Coming Soon)
+              {t("profile.google")}
             </Button>
           </>
         )}
