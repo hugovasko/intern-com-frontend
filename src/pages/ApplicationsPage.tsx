@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "react-i18next";
 import {
   Table,
   TableBody,
@@ -68,6 +69,7 @@ interface Application {
 }
 
 const ApplicationsPage: FC = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const { toast } = useToast();
   const [applications, setApplications] = useState<Application[]>([]);
@@ -219,7 +221,10 @@ const ApplicationsPage: FC = () => {
           <CardContent className="py-12">
             <div className="flex flex-col items-center justify-center">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
-              <p className="mt-2 text-sm text-muted-foreground">Loading applications...</p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                {" "}
+                {t("applicationsPage.loadingapplications")}
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -252,16 +257,18 @@ const ApplicationsPage: FC = () => {
         </CardHeader>
         <CardContent>
           {applications.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground">No applications found.</div>
+            <div className="text-center py-8 text-muted-foreground">
+              {t("applicationsPage.noApplications")}
+            </div>
           ) : user?.role === "candidate" ? (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Position</TableHead>
-                  <TableHead>Company</TableHead>
-                  <TableHead>Applied On</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Actions</TableHead>
+                  <TableHead>{t("applicationsPage.tableHeaders.position")}</TableHead>
+                  <TableHead>{t("applicationsPage.tableHeaders.company")}</TableHead>
+                  <TableHead>{t("applicationsPage.tableHeaders.appliedOn")}</TableHead>
+                  <TableHead>{t("applicationsPage.tableHeaders.status")}</TableHead>
+                  <TableHead>{t("applicationsPage.tableHeaders.actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -279,23 +286,27 @@ const ApplicationsPage: FC = () => {
                       <Dialog>
                         <DialogTrigger asChild>
                           <Button variant="outline" size="sm">
-                            View Details
+                            {t("applicationsPage.actions.viewDetails")}
                           </Button>
                         </DialogTrigger>
                         <DialogContent>
                           <DialogHeader>
-                            <DialogTitle>Application Details</DialogTitle>
+                            <DialogTitle> {t("applicationsPage.title.details")}</DialogTitle>
                           </DialogHeader>
                           <DialogDescription className="space-y-4">
                             <div>
-                              <h4 className="font-medium mb-2">Your Message</h4>
+                              <h4 className="font-medium mb-2">
+                                {t("applicationsPage.messages.yourMessage")}
+                              </h4>
                               <p className="text-sm text-muted-foreground">
                                 {application.message || "No message provided"}
                               </p>
                             </div>
                             {application.note && (
                               <div>
-                                <h4 className="font-medium mb-2">Company Note</h4>
+                                <h4 className="font-medium mb-2">
+                                  {t("applicationsPage.messages.companyNote")}
+                                </h4>
                                 <p className="text-sm text-muted-foreground">{application.note}</p>
                               </div>
                             )}
@@ -311,12 +322,12 @@ const ApplicationsPage: FC = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Candidate</TableHead>
-                  <TableHead>CV</TableHead>
-                  <TableHead>Position</TableHead>
-                  <TableHead>Applied On</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Actions</TableHead>
+                  <TableHead>{t("applicationsPage.tableHeaders.candidate")}</TableHead>
+                  <TableHead>{t("applicationsPage.tableHeaders.cv")}</TableHead>
+                  <TableHead>{t("applicationsPage.tableHeaders.position")}</TableHead>
+                  <TableHead>{t("applicationsPage.tableHeaders.appliedOn")}</TableHead>
+                  <TableHead>{t("applicationsPage.tableHeaders.status")}</TableHead>
+                  <TableHead>{t("applicationsPage.tableHeaders.actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -338,11 +349,11 @@ const ApplicationsPage: FC = () => {
                           className="w-24"
                           onClick={() => handleViewCV(application.candidate.id)}
                         >
-                          View CV
+                          {t("applicationsPage.messages.viewCV")}
                         </Button>
                       ) : (
                         <Button variant="secondary" className="w-24">
-                          No CV
+                          {t("applicationsPage.messages.noCV")}
                         </Button>
                       )}
                     </TableCell>
@@ -367,17 +378,22 @@ const ApplicationsPage: FC = () => {
                       >
                         <DialogTrigger asChild>
                           <Button variant="outline" size="sm">
-                            Manage
+                            {t("applicationsPage.actions.manage")}
                           </Button>
                         </DialogTrigger>
                         <DialogContent className="max-w-md">
                           <DialogHeader>
-                            <DialogTitle>Manage Application</DialogTitle>
+                            <DialogTitle>
+                              {" "}
+                              {t("applicationsPage.messages.manageApplication")}
+                            </DialogTitle>
                           </DialogHeader>
                           <DialogDescription className="space-y-4 py-4">
                             {editingApplication?.message && (
                               <div className="space-y-2">
-                                <Label className="font-medium">Candidate Message</Label>
+                                <Label className="font-medium">
+                                  {t("applicationsPage.messages.cMessage")}
+                                </Label>
                                 <Label className="text-sm text-muted-foreground">
                                   {editingApplication.message}
                                 </Label>
@@ -385,7 +401,9 @@ const ApplicationsPage: FC = () => {
                             )}
 
                             <div className="space-y-2">
-                              <Label className="font-=">Update Status</Label>
+                              <Label className="font-=">
+                                {t("applicationsPage.messages.updateStatus")}
+                              </Label>
                               <Select
                                 value={editingApplication?.status}
                                 onValueChange={(value) => {
@@ -402,15 +420,23 @@ const ApplicationsPage: FC = () => {
                                   <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
-                                  <SelectItem value="pending">Pending</SelectItem>
-                                  <SelectItem value="accepted">Accept</SelectItem>
-                                  <SelectItem value="rejected">Reject</SelectItem>
+                                  <SelectItem value="pending">
+                                    {t("applicationsPage.statusOptions.pending")}
+                                  </SelectItem>
+                                  <SelectItem value="accepted">
+                                    {t("applicationsPage.statusOptions.accepted")}
+                                  </SelectItem>
+                                  <SelectItem value="rejected">
+                                    {t("applicationsPage.statusOptions.rejected")}
+                                  </SelectItem>
                                 </SelectContent>
                               </Select>
                             </div>
 
                             <div className="space-y-2">
-                              <Label className="font-medium">Add Note</Label>
+                              <Label className="font-medium">
+                                {t("applicationsPage.messages.addNote")}
+                              </Label>
                               <Textarea
                                 placeholder="Add a note about this application..."
                                 value={editingApplication?.note || ""}
@@ -438,7 +464,9 @@ const ApplicationsPage: FC = () => {
 
                             {application?.note && (
                               <div className="space-y-2">
-                                <h4 className="font-medium">Current Note</h4>
+                                <h4 className="font-medium">
+                                  {t("applicationsPage.messages.currentNote")}
+                                </h4>
                                 <p className="text-sm text-muted-foreground">{application.note}</p>
                               </div>
                             )}
@@ -454,13 +482,13 @@ const ApplicationsPage: FC = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Candidate</TableHead>
-                  <TableHead>CV</TableHead>
-                  <TableHead>Position</TableHead>
-                  <TableHead>Company</TableHead>
-                  <TableHead>Applied On</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Actions</TableHead>
+                  <TableHead>{t("applicationsPage.tableHeaders.candidate")}</TableHead>
+                  <TableHead>{t("applicationsPage.tableHeaders.cv")}</TableHead>
+                  <TableHead>{t("applicationsPage.tableHeaders.position")}</TableHead>
+                  <TableHead>{t("applicationsPage.tableHeaders.company")}</TableHead>
+                  <TableHead>{t("applicationsPage.tableHeaders.appliedOn")}</TableHead>
+                  <TableHead>{t("applicationsPage.tableHeaders.status")}</TableHead>
+                  <TableHead>{t("applicationsPage.tableHeaders.actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -482,11 +510,11 @@ const ApplicationsPage: FC = () => {
                           className="w-24"
                           onClick={() => handleViewCV(application.candidate.id)}
                         >
-                          View CV
+                          {t("applicationsPage.messages.viewCV")}
                         </Button>
                       ) : (
                         <Button variant="secondary" className="w-24">
-                          No CV
+                          {t("applicationsPage.messages.noCV")}
                         </Button>
                       )}
                     </TableCell>
@@ -513,22 +541,29 @@ const ApplicationsPage: FC = () => {
                         >
                           <DialogTrigger asChild>
                             <Button variant="outline" size="sm">
-                              Manage
+                              {t("applicationsPage.actions.manage")}
                             </Button>
                           </DialogTrigger>
                           <DialogContent className="max-w-md">
                             <DialogHeader>
-                              <DialogTitle>Manage Application</DialogTitle>
+                              <DialogTitle>
+                                {t("applicationsPage.messages.manageApplication")}
+                              </DialogTitle>
                             </DialogHeader>
                             <DialogDescription className="space-y-4 py-4">
                               <DialogContent className="max-w-md">
                                 <DialogHeader>
-                                  <DialogTitle>Manage Application</DialogTitle>
+                                  <DialogTitle>
+                                    {t("applicationsPage.messages.manageApplication")}
+                                  </DialogTitle>
                                 </DialogHeader>
                                 <DialogDescription className="space-y-4 py-4">
                                   {editingApplication?.message && (
                                     <div className="space-y-2">
-                                      <Label className="font-medium">Candidate Message</Label>
+                                      <Label className="font-medium">
+                                        {" "}
+                                        {t("applicationsPage.messages.cMessages")}
+                                      </Label>
                                       <Label className="text-sm text-muted-foreground">
                                         {editingApplication.message}
                                       </Label>
@@ -536,7 +571,10 @@ const ApplicationsPage: FC = () => {
                                   )}
 
                                   <div className="space-y-2">
-                                    <Label className="font-=">Update Status</Label>
+                                    <Label className="font-=">
+                                      {" "}
+                                      {t("applicationsPage.messages.updateStatus")}
+                                    </Label>
                                     <Select
                                       value={editingApplication?.status}
                                       onValueChange={(value) => {
@@ -553,15 +591,23 @@ const ApplicationsPage: FC = () => {
                                         <SelectValue />
                                       </SelectTrigger>
                                       <SelectContent>
-                                        <SelectItem value="pending">Pending</SelectItem>
-                                        <SelectItem value="accepted">Accept</SelectItem>
-                                        <SelectItem value="rejected">Reject</SelectItem>
+                                        <SelectItem value="pending">
+                                          {t("applicationsPage.statusOptions.pending")}
+                                        </SelectItem>
+                                        <SelectItem value="accepted">
+                                          {t("applicationsPage.statusOptions.accepted")}
+                                        </SelectItem>
+                                        <SelectItem value="rejected">
+                                          {t("applicationsPage.statusOptions.rejected")}
+                                        </SelectItem>
                                       </SelectContent>
                                     </Select>
                                   </div>
 
                                   <div className="space-y-2">
-                                    <Label className="font-medium">Add Note</Label>
+                                    <Label className="font-medium">
+                                      {t("applicationsPage.messages.addNote")}
+                                    </Label>
                                     <Textarea
                                       placeholder="Add a note about this application..."
                                       value={editingApplication?.note || ""}
@@ -589,7 +635,9 @@ const ApplicationsPage: FC = () => {
 
                                   {application?.note && (
                                     <div className="space-y-2">
-                                      <h4 className="font-medium">Current Note</h4>
+                                      <h4 className="font-medium">
+                                        {t("applicationsPage.messages.currentNote")}
+                                      </h4>
                                       <p className="text-sm text-muted-foreground">
                                         {application.note}
                                       </p>
@@ -604,24 +652,28 @@ const ApplicationsPage: FC = () => {
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
                             <Button variant="destructive" size="sm">
-                              Delete
+                              {t("applicationsPage.actions.delete")}
                             </Button>
                           </AlertDialogTrigger>
                           <AlertDialogContent>
                             <AlertDialogHeader>
-                              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                              <AlertDialogTitle>
+                                {t("applicationsPage.deleteConfirmation.title")}
+                              </AlertDialogTitle>
                               <AlertDialogDescription>
-                                This action cannot be undone. This will permanently delete the
-                                application.
+                                {t("applicationsPage.deleteConfirmation.description")}
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogCancel>
+                                {" "}
+                                {t("applicationsPage.actions.cancel")}
+                              </AlertDialogCancel>
                               <AlertDialogAction
                                 onClick={() => deleteApplication(application.id)}
                                 className="bg-destructive text-destructive-foreground"
                               >
-                                Delete
+                                {t("applicationsPage.actions.delete")}
                               </AlertDialogAction>
                             </AlertDialogFooter>
                           </AlertDialogContent>

@@ -8,6 +8,7 @@ import { useState, useRef, useEffect } from "react";
 import { Eye, Upload, Trash2, Save, FilePenLine } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import api from "@/lib/api";
+import { useTranslation } from "react-i18next";
 
 interface FormData {
   firstName: string;
@@ -18,6 +19,7 @@ interface FormData {
 }
 
 export function Profile() {
+  const { t } = useTranslation();
   const { user, setUser } = useAuth();
   const { toast } = useToast();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -209,12 +211,12 @@ export function Profile() {
         <Card>
           <CardHeader>
             <CardTitle className="flex justify-between items-center">
-              Profile
+            {t("profile.profile")}
               <div className="flex gap-2">
                 {isEditingProfile ? (
                   <>
                     <Button variant="outline" onClick={handleCancel}>
-                      Cancel
+                    {t("profile.cancel")}
                     </Button>
                     <Button
                       variant="outline"
@@ -222,12 +224,12 @@ export function Profile() {
                       disabled={!hasChanges()}
                     >
                       <Save className="h-4 w-4 mr-2" />
-                      Save Changes
+                      {t("profile.save")}
                     </Button>
                   </>
                 ) : (
                   <Button variant="outline" onClick={() => setIsEditingProfile(true)}>
-                    Edit Profile
+                     {t("profile.edit")}
                   </Button>
                 )}
               </div>
@@ -236,7 +238,7 @@ export function Profile() {
           <CardContent className="space-y-6">
             {user && user.role === "partner" && (
               <div>
-                <Label>Company Name</Label>
+                <Label> {t("profile.company")}</Label>
                 {isEditingProfile ? (
                   <Input
                     value={formData.companyName}
@@ -249,7 +251,7 @@ export function Profile() {
             )}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <Label>First Name</Label>
+                <Label>{t("profile.first")}</Label>
                 {isEditingProfile ? (
                   <Input
                     value={formData.firstName}
@@ -260,7 +262,7 @@ export function Profile() {
                 )}
               </div>
               <div>
-                <Label>Last Name</Label>
+                <Label>{t("profile.last")}</Label>
                 {isEditingProfile ? (
                   <Input
                     value={formData.lastName}
@@ -273,7 +275,7 @@ export function Profile() {
             </div>
 
             <div>
-              <Label>Phone Number</Label>
+              <Label>{t("profile.phone")}</Label>
               {isEditingProfile ? (
                 <Input
                   value={formData.phoneNumber}
@@ -285,13 +287,13 @@ export function Profile() {
             </div>
 
             <div>
-              <Label>Email</Label>
+              <Label>{t("profile.email")}</Label>
               <p className="mt-1">{user?.email}</p>
             </div>
 
             {user?.role === "candidate" && (
               <div className="space-y-4 flex flex-col">
-                <Label>CV Document</Label>
+                <Label>{t("profile.cv")}</Label>
 
                 {isReplacingCV ? (
                   // CV upload form is active
@@ -308,17 +310,17 @@ export function Profile() {
                         <div className="grid grid-cols-2 sm:flex gap-2">
                           <Button onClick={previewSelectedFile}>
                             <Eye className="h-4 w-4 mr-2" />
-                            Preview
+                            {t("profile.preview")}
                           </Button>
                           <Button onClick={handleUpload}>
                             <Upload className="h-4 w-4 mr-2" />
-                            Upload
+                            {t("profile.upload")}
                           </Button>
                         </div>
                       )}
                     </div>
                     <Button variant="outline" onClick={handleCancel} className="w-full sm:w-auto">
-                      Cancel
+                    {t("profile.cancel")}
                     </Button>
                   </div>
                 ) : user?.cvFileName ? (
@@ -328,11 +330,11 @@ export function Profile() {
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 w-full sm:w-auto">
                       <Button onClick={handleViewCV}>
                         <Eye className="h-4 w-4 mr-2" />
-                        View CV
+                        {t("profile.view")}
                       </Button>
                       <Button onClick={() => setIsReplacingCV(true)}>
                         <FilePenLine className="h-4 w-4 mr-2" />
-                        Replace CV
+                        {t("profile.peplace")}
                       </Button>
                       <Button
                         variant="destructive"
@@ -340,7 +342,7 @@ export function Profile() {
                         className="col-span-2 sm:col-span-1"
                       >
                         <Trash2 className="h-4 w-4 mr-2" />
-                        Remove CV
+                        {t("profile.remove")}
                       </Button>
                     </div>
                   </div>
@@ -348,14 +350,14 @@ export function Profile() {
                   // No CV and not replacing - show upload button
                   <Button onClick={() => setIsReplacingCV(true)}>
                     <Upload className="h-4 w-4 mr-2" />
-                    Upload CV
+                    {t("profile.upload1")}
                   </Button>
                 )}
               </div>
             )}
             {user?.role === "partner" && (
               <div>
-                <Label>Coordinates</Label>
+                <Label>{t("profile.coordinates")}</Label>
                 {isEditingProfile ? (
                   <Input
                     value={formData.companyCoordinates}

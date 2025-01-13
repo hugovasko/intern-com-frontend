@@ -31,8 +31,10 @@ import api from "@/lib/api";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { User } from "@/contexts/AuthContext";
+import { useTranslation } from "react-i18next";
 
 export function AdminPanel() {
+  const { t } = useTranslation();
   const [users, setUsers] = useState<User[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -62,8 +64,8 @@ export function AdminPanel() {
       setFilteredUsers(sortedUsers);
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to fetch users",
+        title: t("adminPanel.error"),
+        description: t("adminPanel.fetchError"),
         variant: "destructive",
       });
     }
@@ -73,14 +75,14 @@ export function AdminPanel() {
     try {
       await api.patch(`/users/${userId}/role`, { role: newRole });
       toast({
-        title: "Success",
-        description: "User role updated successfully",
+        title: t("adminPanel.success"),
+        description: t("adminPanel.roleUpdated"),
       });
       fetchUsers();
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to update user role",
+        title: t("adminPanel.error"),
+        description: t("adminPanel.roleUpdateError"),
         variant: "destructive",
       });
     }
@@ -90,14 +92,14 @@ export function AdminPanel() {
     try {
       await api.delete(`/users/${userId}`);
       toast({
-        title: "Success",
-        description: "User deleted successfully",
+        title: t("adminPanel.success"),
+        description: t("adminPanel.userDeleted"),
       });
       fetchUsers();
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to delete user",
+        title: t("adminPanel.error"),
+        description: t("adminPanel.userDeleteError"),
         variant: "destructive",
       });
     }
@@ -106,11 +108,11 @@ export function AdminPanel() {
   return (
     <div className="container mx-auto py-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">User Management</h1>
+        <h1 className="text-2xl font-bold">{t("adminPanel.userManagement")}</h1>
         <div className="relative w-64">
           <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search users..."
+            placeholder={t("adminPanel.searchPlaceholder")}
             className="pl-8"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -122,13 +124,13 @@ export function AdminPanel() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Company</TableHead>
-              <TableHead>Phone</TableHead>
-              <TableHead>Joined</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead>{t("adminPanel.name")}</TableHead>
+              <TableHead>{t("adminPanel.email")}</TableHead>
+              <TableHead>{t("adminPanel.role")}</TableHead>
+              <TableHead>{t("adminPanel.company")}</TableHead>
+              <TableHead>{t("adminPanel.phone")}</TableHead>
+              <TableHead>{t("adminPanel.joined")}</TableHead>
+              <TableHead>{t("adminPanel.actions")}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -147,9 +149,9 @@ export function AdminPanel() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="candidate">Candidate</SelectItem>
-                      <SelectItem value="partner">Partner</SelectItem>
-                      <SelectItem value="admin">Admin</SelectItem>
+                      <SelectItem value="candidate">{t("adminPanel.candidate")}</SelectItem>
+                      <SelectItem value="partner">{t("adminPanel.partner")}</SelectItem>
+                      <SelectItem value="admin">{t("adminPanel.admin")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </TableCell>
@@ -160,19 +162,18 @@ export function AdminPanel() {
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <Button variant="destructive" size="sm" onClick={() => setUserToDelete(user)}>
-                        Delete
+                        {t("adminPanel.delete")}
                       </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
-                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogTitle>{t("adminPanel.confirmDeleteTitle")}</AlertDialogTitle>
                         <AlertDialogDescription>
-                          This action cannot be undone. This will permanently delete the user
-                          account and remove all their data from the system.
+                          {t("adminPanel.confirmDeleteDescription")}
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel>{t("adminPanel.cancel")}</AlertDialogCancel>
                         <Button
                           variant="destructive"
                           onClick={() => {
@@ -181,7 +182,7 @@ export function AdminPanel() {
                             }
                           }}
                         >
-                          Delete
+                          {t("adminPanel.delete")}
                         </Button>
                       </AlertDialogFooter>
                     </AlertDialogContent>

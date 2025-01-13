@@ -1,47 +1,48 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const PrivacyPolicy: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
+      <h1 className="text-3xl text-primary font-bold mb-6">{t("privacyPolicy.title")}</h1>
       <p className="mb-4">
-        Welcome to Intern.com. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website. 
-        Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.
+      {t("privacyPolicy.welcome")}
       </p>
 
-      <h2 className="text-2xl font-semibold mt-6 mb-4">Information We Collect</h2>
+      <h2 className="text-2xl font-semibold mt-6 mb-4">{t("privacyPolicy.informationTitle")}</h2>
       <p className="mb-4">
-        We may collect information about you in a variety of ways. The information we may collect via the website includes:
-      </p>
-      <ul className="list-disc list-inside mb-4">
-        <li>Personal Data: Name, email address, and similar contact details.</li>
-        <li>Usage Data: Details about how you use our website.</li>
-      </ul>
-
-      <h2 className="text-2xl font-semibold mt-6 mb-4">How We Use Your Information</h2>
-      <p className="mb-4">
-        We use your information to:
+      {t("privacyPolicy.informationContent")}
       </p>
       <ul className="list-disc list-inside mb-4">
-        <li>Provide, operate, and maintain our website.</li>
-        <li>Communicate with you, including customer service.</li>
-        <li>Improve user experience and website performance.</li>
+        <li>{t("privacyPolicy.personalData")}</li>
+        <li>{t("privacyPolicy.usageData")}</li>
       </ul>
 
-      <h2 className="text-2xl font-semibold mt-6 mb-4">Sharing Your Information</h2>
+      <h2 className="text-2xl font-semibold mt-6 mb-4">{t("privacyPolicy.howUseTitle")}</h2>
       <p className="mb-4">
-        We do not sell or share your personal information with third parties except as necessary to provide the services you requested.
+      {t("privacyPolicy.howUseContent")} 
+      </p>
+      <ul className="list-disc list-inside mb-4">
+        <li>{t("privacyPolicy.usePoint1")}</li>
+        <li>{t("privacyPolicy.usePoint2")}</li>
+        <li>{t("privacyPolicy.usePoint3")}</li>
+      </ul>
+
+      <h2 className="text-2xl font-semibold mt-6 mb-4">{t("privacyPolicy.sharingTitle")}</h2>
+      <p className="mb-4">
+      {t("privacyPolicy.sharingContent")}
       </p>
 
-      <h2 className="text-2xl font-semibold mt-6 mb-4">Your Rights</h2>
+      <h2 className="text-2xl font-semibold mt-6 mb-4">{t("privacyPolicy.rightsTitle")}</h2>
       <p className="mb-4">
-        You have the right to access, update, or delete your personal information. If you wish to exercise these rights, please contact us at support@intern.com.
+      {t("privacyPolicy.rightsContent")}
       </p>
 
-      <h2 className="text-2xl font-semibold mt-6 mb-4">Contact Us</h2>
+      <h2 className="text-2xl font-semibold mt-6 mb-4">{t("privacyPolicy.contactTitle")}</h2>
       <p className="mb-4">
-        If you have any questions about this Privacy Policy, please contact us at:
-        <a href="mailto:support@intern.com" className="text-blue-500 underline"> support@intern.com</a>.
+      {t("privacyPolicy.contactContent")}
+        <a href="mailto:support@intern.com" className="text-primary  underline"> {t("privacyPolicy.contactEmail")}</a>.
       </p>
     </div>
   );
