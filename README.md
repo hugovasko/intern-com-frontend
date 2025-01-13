@@ -20,6 +20,7 @@ This is the frontend for the Intern Connect platform, built with React, TypeScri
 
    ```env
    VITE_API_URL=http://localhost:3030
+   VITE_GITHUB_CLIENT_ID=Ov23liciu8mFVSJgozM4
    ```
 
 3. **Install dependencies:**
