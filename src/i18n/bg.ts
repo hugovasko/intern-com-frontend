@@ -417,6 +417,26 @@ export const translationBG: typeof translationEN = {
     bg: "БГ",
   },
   community: {
-    title: "Добре дошли в нашата общност"
+    title: "Добре дошли в нашата общност",
+    description: "Свържете се, споделяйте и растете с другите. Нашата общност е място, където идеите процъфтяват и се правят връзки",
+    button: "Присъедини се",
+    events: "Събития",
+    eventsDescription: "Открийте предстоящи събития в нашата общност.",
+    buttonEvents: " Научи повече",
+    discussions: "Дискусии",
+    disscussionsDescription: "Присъединете се към разговора и споделете вашите мисли.",
+    buttonDiscussion: "Научи повече",
+    resources: "Ресурси",
+    resourcesDescription: "Достъп до ценни ресурси и инструменти.",
+    buttonResources: " Научи повече"
+
+  },
+  footer:{
+    title: "Interm.com",
+    descriptions: "Всички права запазени.",
+    aboutUs: "Относно нас",
+    contactUs: "Свържи си с нас",
+    privacyPolicy: "Политика на поверителността"
   }
+
 };
