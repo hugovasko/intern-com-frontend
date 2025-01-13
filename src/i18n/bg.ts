@@ -63,6 +63,7 @@ export const translationBG: typeof translationEN = {
     subtext3:
       "Присъединете се към нашата общност, за да се свържете, да си сътрудничите и да растете.",
   },
+  
   us: {
     title: "За Intern.com",
     description:
@@ -172,7 +173,7 @@ export const translationBG: typeof translationEN = {
     notesPlaceholder: "Споделете своята история или задайте въпрос!",
     submit: "Изпрати",
   },
-  
+
   partnerContacts: {
     title: "Контакти с партньори",
     header: "Свържете се с нас и нека сътрудничим!",
@@ -188,7 +189,7 @@ export const translationBG: typeof translationEN = {
     subject: "Тема на вашето запитване",
     message: "Съобщение",
     messagePlaceholder: "Споделете подробности за вашето запитване",
-    submit: "Изпрати"
+    submit: "Изпрати",
   },
 
   calculator: {
@@ -210,8 +211,10 @@ export const translationBG: typeof translationEN = {
     totalInsurance: "Общо осигурителни вноски",
     incomeTax: "Данък върху доходите",
     netSalaryLabel: "Нетна заплата",
-    disclaimer: "Резултатите са ориентировъчни и трябва да се използват само за информационни цели.",
+    disclaimer:
+      "Резултатите са ориентировъчни и трябва да се използват само за информационни цели.",
   },
+
   general: {
     yes: "Да",
     no: "Не",

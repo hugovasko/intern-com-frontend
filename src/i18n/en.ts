@@ -58,6 +58,7 @@ export const translationEN = {
     subtext2: "Use our salary calculator to estimate your potential earnings.",
     subtext3: "Join our community to connect, collaborate, and grow.",
   },
+  
   us: {
     title: "About Intern.com",
     description:
@@ -206,6 +207,7 @@ export const translationEN = {
     netSalaryLabel: "Net Salary",
     disclaimer: "The results are approximate and should be used for informational purposes only.",
   },
+
   general: {
     yes: "Yes",
     no: "No",
