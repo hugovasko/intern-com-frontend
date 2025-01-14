@@ -416,7 +416,8 @@ export const translationEN = {
   },
   community: {
     title: "Welcome to Our Community",
-    description: "Connect, share, and grow with others. Our community is a place where ideas flourish and connections are made",
+    description:
+      "Connect, share, and grow with others. Our community is a place where ideas flourish and connections are made",
     button: "Join us",
     events: "Events",
     eventsDescription: "Discover upcoming events in our community.",
@@ -426,17 +427,13 @@ export const translationEN = {
     buttonDiscussion: "Learn More",
     resources: "Resources",
     resourcesDescription: "Access valuable resources and tools.",
-    buttonResources: " Learn More"
+    buttonResources: " Learn More",
   },
-  footer:{
+  footer: {
     title: "Intern.com",
     descriptions: "All Rights Reserved.",
     aboutUs: "About Us",
     contactUs: "Contact Us",
-    privacyPolicy: "Privacy Policy"
-
-
-  }
-  
-
+    privacyPolicy: "Privacy Policy",
+  },
 };
