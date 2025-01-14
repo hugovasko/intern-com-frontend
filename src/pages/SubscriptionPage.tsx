@@ -1,5 +1,5 @@
 // src/pages/SubscriptionPage.tsx
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useToast } from "@/hooks/use-toast";
@@ -25,7 +25,7 @@ const CheckoutForm = () => {
     navigate("/");
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (!stripe || !elements) {

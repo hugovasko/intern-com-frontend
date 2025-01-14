@@ -77,9 +77,12 @@ const ApplicationsPage: FC = () => {
   const [editingApplication, setEditingApplication] = useState<Application | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [updatingStatus, setUpdatingStatus] = useState(false);
-  const [hasActiveSubscription, setHasActiveSubscription] = useState<boolean>(true);
 
   useEffect(() => {
+    if (user?.role === "partner" && user?.subscriptionStatus !== "active") {
+      setLoading(false);
+      return;
+    }
     fetchApplications();
   }, [user?.role]);
 
@@ -100,13 +103,7 @@ const ApplicationsPage: FC = () => {
         (a: Application, b: Application) => a.id - b.id
       );
       setApplications(sortedApplications);
-    } catch (error: any) {
-      if (
-        error.response?.status === 403 &&
-        error.response?.data?.message?.includes("subscription")
-      ) {
-        setHasActiveSubscription(false);
-      }
+    } catch (error) {
       console.error("Failed to fetch applications:", error);
       toast({
         title: "Error",
@@ -232,7 +229,7 @@ const ApplicationsPage: FC = () => {
     );
   }
 
-  if (user?.role === "partner" && !hasActiveSubscription) {
+  if (user?.role === "partner" && user?.subscriptionStatus !== "active") {
     return (
       <div className="container mx-auto py-8">
         <Card>

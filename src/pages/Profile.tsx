@@ -9,6 +9,7 @@ import { Eye, Upload, Trash2, Save, FilePenLine } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import api from "@/lib/api";
 import { useTranslation } from "react-i18next";
+import SubscriptionStatus from "@/components/SubscriptionStatus";
 
 interface FormData {
   firstName: string;
@@ -207,16 +208,17 @@ export function Profile() {
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-3xl mx-auto flex flex-col gap-5">
+        {user?.role === "partner" && <SubscriptionStatus />}
         <Card>
           <CardHeader>
             <CardTitle className="flex justify-between items-center">
-            {t("profile.profile")}
+              {t("profile.profile")}
               <div className="flex gap-2">
                 {isEditingProfile ? (
                   <>
                     <Button variant="outline" onClick={handleCancel}>
-                    {t("profile.cancel")}
+                      {t("profile.cancel")}
                     </Button>
                     <Button
                       variant="outline"
@@ -229,7 +231,7 @@ export function Profile() {
                   </>
                 ) : (
                   <Button variant="outline" onClick={() => setIsEditingProfile(true)}>
-                     {t("profile.edit")}
+                    {t("profile.edit")}
                   </Button>
                 )}
               </div>
@@ -320,7 +322,7 @@ export function Profile() {
                       )}
                     </div>
                     <Button variant="outline" onClick={handleCancel} className="w-full sm:w-auto">
-                    {t("profile.cancel")}
+                      {t("profile.cancel")}
                     </Button>
                   </div>
                 ) : user?.cvFileName ? (
