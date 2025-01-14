@@ -114,7 +114,7 @@ export function Navbar() {
           <Link to="/applications" className="w-full" onClick={handleLinkClick}>
             <Button variant="ghost" className="w-full justify-start">
               <FileUser className="mr-2 h-4 w-4" />
-              {t("navbar.applications")}
+              {t("navbar.application")}
             </Button>
           </Link>
           {(user.role === "partner" || user.role === "admin") && (
@@ -142,7 +142,7 @@ export function Navbar() {
             }}
           >
             <LogOut className="mr-2 h-4 w-4" />
-            {t("navbar.Logout")}
+            {t("navbar.logout")}
           </Button>
         </>
       ) : (
