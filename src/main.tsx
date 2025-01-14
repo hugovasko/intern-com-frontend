@@ -27,6 +27,7 @@ import PrivacyPolicy from "./pages/Privacy.tsx";
 import MapPage from "./pages/MapPage.tsx";
 import ApplicationsPage from "./pages/ApplicationsPage.tsx";
 import "./i18n/i18n.ts";
+import GitHubCallback from "./GithubCallBack.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -55,6 +56,11 @@ const router = createBrowserRouter(
         }
       />
       <Route
+       path="/auth/callback" 
+       element={
+       <GitHubCallback />}
+        />
+      <Route
         path="/applications"
         element={
           <ProtectedRoute>
@@ -79,6 +85,7 @@ const router = createBrowserRouter(
         }
       />
     </Route>
+    
   )
 );
 

@@ -19,6 +19,7 @@ export const auth = {
   login: (data: { email: string; password: string }) => api.post("/auth/login", data),
   register: (data: { firstName: string; lastName: string; email: string; password: string }) =>
     api.post("/auth/register", data),
+  post: (url: string, data: any) => api.post(url, data),
 };
 
 export const opportunities = {

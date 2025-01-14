@@ -1,7 +1,8 @@
 // src/contexts/AuthContext.tsx
 import React, { createContext, useContext, useState, useEffect } from "react";
-import api, { auth as authApi } from "@/lib/api";
+import api, { auth, auth as authApi } from "@/lib/api";
 import { useNavigate } from "react-router-dom";
+
 
 export interface User {
   id: number;
@@ -30,6 +31,7 @@ interface AuthContextType {
     password: string;
   }) => Promise<void>;
   logout: () => void;
+  loginWithGitHub: (code: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -49,6 +51,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(null);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loginWithGitHub = async (code: string) => {
+    try {
+      
+      const response = await auth.post("/auth/github/callback", { code });
+  
+      localStorage.setItem("token", response.data.token);
+  
+      
+      setUser(response.data.user);
+  
+      navigate("/");
+    } catch (error) {
+      console.error("GitHub login error:", error);
+      throw error;
     }
   };
 
@@ -96,10 +115,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, setUser, loading, login, register, logout, loginWithGitHub }}>
       {children}
     </AuthContext.Provider>
   );
+
+  
 }
 
 export const useAuth = () => {
@@ -109,3 +130,5 @@ export const useAuth = () => {
   }
   return context;
 };
+
+

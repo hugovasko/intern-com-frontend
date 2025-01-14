@@ -273,10 +273,16 @@ export function AuthPage() {
             <Button
               variant="outline"
               className="w-full"
-              onClick={() => console.log("Github Sign In")}
+              onClick={() => {
+                const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
+                console.log("GitHub Client ID:", import.meta.env.VITE_GITHUB_CLIENT_ID);
+                const redirectUri = "http://localhost:3000/auth/callback";
+                const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=user&redirect_uri=${redirectUri}`;
+                window.location.href = githubAuthUrl;
+              }}
             >
               <Github className="mr-2 h-4 w-4" />
-              Continue with Github (Coming Soon)
+              Continue with GitHub
             </Button>
 
             <Button
