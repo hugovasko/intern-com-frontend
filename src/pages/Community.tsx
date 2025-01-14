@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next"; 
 
 const Community = () => {
   const [activeSection, setActiveSection] = useState<null | "Events" | "Discussions" | "Resources">(
     null
   );
-
+const {t}= useTranslation()
   const renderSectionContent = () => {
     switch (activeSection) {
       case "Events":
@@ -31,43 +32,42 @@ const Community = () => {
 
   return (
     <div className="flex flex-col justify-center items-center m-5 gap-4">
-      <h1 className="text-3xl font-bold text-center">Welcome to Our Community</h1>
+      <h1 className="text-3xl font-bold text-center">{t("community.title")}</h1>
       <p className="text-center text-gray-600 max-w-lg">
-        Connect, share, and grow with others. Our community is a place where ideas flourish and
-        connections are made.
+       {t("community.description")}
       </p>
       <Button className="px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition duration-300">
-        Join Us
+        {t("community.button")}
       </Button>
       <div className="flex flex-wrap justify-center gap-6 mt-5">
         <div className="p-4 border border-gray-300 rounded-lg shadow-md w-60 text-center">
-          <h2 className="text-xl font-semibold">Events</h2>
-          <p className="text-gray-500 mt-2">Discover upcoming events in our community.</p>
+          <h2 className="text-xl font-semibold">{t("community.events")}</h2>
+          <p className="text-gray-500 mt-2">{t("community.eventsDescription")}</p>
           <Button
             onClick={() => setActiveSection("Events")}
             className="mt-3 bg-green-500 text-white hover:bg-green-600"
           >
-            Learn More
+            {t("community.buttonEvents")}
           </Button>
         </div>
         <div className="p-4 border border-gray-300 rounded-lg shadow-md w-60 text-center">
-          <h2 className="text-xl font-semibold">Discussions</h2>
-          <p className="text-gray-500 mt-2">Join the conversation and share your thoughts.</p>
+          <h2 className="text-xl font-semibold">{t("community.discussions")}</h2>
+          <p className="text-gray-500 mt-2">{t("community.disscussionsDescription")}</p>
           <Button
             onClick={() => setActiveSection("Discussions")}
             className="mt-3 bg-green-500 text-white hover:bg-green-600"
           >
-            Learn More
+            {t("community.buttonDiscussion")}
           </Button>
         </div>
         <div className="p-4 border border-gray-300 rounded-lg shadow-md w-60 text-center">
-          <h2 className="text-xl font-semibold">Resources</h2>
-          <p className="text-gray-500 mt-2">Access valuable resources and tools.</p>
+          <h2 className="text-xl font-semibold">{t("community.resources")}</h2>
+          <p className="text-gray-500 mt-2">{t("community.resourcesDescription")}</p>
           <Button
             onClick={() => setActiveSection("Resources")}
             className="mt-3 bg-green-500 text-white hover:bg-green-600"
           >
-            Learn More
+            {t("community.buttonResources")}
           </Button>
         </div>
       </div>
