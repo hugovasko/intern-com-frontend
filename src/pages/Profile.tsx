@@ -336,7 +336,7 @@ export function Profile() {
                       </Button>
                       <Button onClick={() => setIsReplacingCV(true)}>
                         <FilePenLine className="h-4 w-4 mr-2" />
-                        {t("profile.peplace")}
+                        {t("profile.replace")}
                       </Button>
                       <Button
                         variant="destructive"
