@@ -1,4 +1,3 @@
-// src/pages/ManageOpportunities.tsx
 import { useEffect, useState } from "react";
 import {
   Table,

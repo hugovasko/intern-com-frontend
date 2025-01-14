@@ -1,12 +1,10 @@
-// src/lib/api.ts
 import axios from "axios";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
-  withCredentials: true, // This is important for handling cookies if needed
+  withCredentials: true,
 });
 
-// Add request interceptor to include JWT token
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {

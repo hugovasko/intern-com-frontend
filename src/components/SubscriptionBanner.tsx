@@ -1,4 +1,3 @@
-// src/components/SubscriptionBanner.tsx
 import { useNavigate } from "react-router-dom";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";

@@ -49,7 +49,6 @@ const MapPage: FC<MapPageProps> = () => {
   };
 
   const handleMarkerClick = async (coordinates: string) => {
-    // If we already have the location name, don't fetch it again
     if (locationDetails[coordinates]) return;
 
     const [lat, lon] = coordinates.split(",").map(Number);

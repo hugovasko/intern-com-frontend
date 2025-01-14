@@ -1,4 +1,3 @@
-"use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -268,7 +267,10 @@ export function AuthPage() {
                 <div className="w-full border-t"></div>
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground"> {t("profile.con")}</span>
+                <span className="bg-background px-2 text-muted-foreground">
+                  {" "}
+                  {t("profile.con")}
+                </span>
               </div>
             </div>
 
@@ -280,7 +282,6 @@ export function AuthPage() {
             >
               <Github className="mr-2 h-4 w-4" />
               {t("profile.continue")}
-          
             </Button>
 
             <Button

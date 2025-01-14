@@ -9,10 +9,8 @@ export function useScroll() {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      // Determine if page is scrolled
       setScrolled(currentScrollY > 0);
 
-      // Show/hide based on scroll direction
       if (currentScrollY < lastScrollY) {
         // Scrolling up
         setVisible(true);

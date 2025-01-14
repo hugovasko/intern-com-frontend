@@ -1,4 +1,3 @@
-"use client";
 import { Button } from "./ui/button";
 import * as React from "react";
 import logo from "@/assets/1.png";

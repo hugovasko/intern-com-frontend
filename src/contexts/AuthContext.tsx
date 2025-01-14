@@ -1,4 +1,3 @@
-// src/contexts/AuthContext.tsx
 import React, { createContext, useContext, useState, useEffect } from "react";
 import api, { auth as authApi } from "@/lib/api";
 import { useNavigate } from "react-router-dom";
@@ -16,10 +15,10 @@ export interface User {
   phoneNumber?: string;
   createdAt: string;
   companyCoordinates?: string;
-  subscriptionStatus?: string; // Add this line
-  stripeCustomerId?: string; // You might want to add this too
-  subscriptionId?: string; // And this
-  subscriptionEndDate?: Date; // And this
+  subscriptionStatus?: string;
+  stripeCustomerId?: string;
+  subscriptionId?: string;
+  subscriptionEndDate?: Date;
 }
 
 interface AuthContextType {

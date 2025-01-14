@@ -1,4 +1,3 @@
-// src/pages/AdminPanel.tsx
 import { useEffect, useState } from "react";
 import {
   Table,

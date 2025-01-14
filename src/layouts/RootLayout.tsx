@@ -1,4 +1,3 @@
-// src/components/layouts/RootLayout.tsx
 import { Outlet, ScrollRestoration } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { Navbar } from "@/components/Navbar";
